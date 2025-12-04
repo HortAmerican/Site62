@@ -1,0 +1,134 @@
+{
+  "project": "MDT - Mobile Data Terminal",
+  "version": "1.0.0",
+  "description": "FiveM MDT Tablette Interface - French UI",
+  "author": "MDT Development",
+  "created": "2025-11-30",
+  "status": "production-ready",
+  "features": {
+    "search": {
+      "enabled": true,
+      "types": ["name", "id", "phone", "address"],
+      "history": true,
+      "history_limit": 10
+    },
+    "records": {
+      "enabled": true,
+      "medical_history": true,
+      "edit_modal": true,
+      "persistence": "localStorage"
+    },
+    "gallery": {
+      "enabled": true,
+      "upload": true,
+      "max_file_size_mb": 5,
+      "allowed_types": ["image/*"],
+      "lazy_load": true,
+      "lightbox": true,
+      "keyboard_navigation": true
+    },
+    "reports": {
+      "enabled": true,
+      "photo_attachment": true
+    },
+    "realtime": {
+      "enabled": true,
+      "toggle": true,
+      "persistence": "localStorage",
+      "mock_interval_ms": 12000
+    },
+    "settings": {
+      "roles": ["lspd", "ems", "fbi"],
+      "themes": ["lspd", "dark"],
+      "permissions": true
+    },
+    "ui": {
+      "language": "fr-FR",
+      "responsive": true,
+      "touch_friendly": true,
+      "animations": true,
+      "notifications": true
+    },
+    "security": {
+      "xss_prevention": true,
+      "input_validation": true,
+      "file_validation": true,
+      "localStorage_error_handling": true
+    }
+  },
+  "files": {
+    "index.html": {
+      "size_kb": 7.2,
+      "purpose": "Main HTML structure",
+      "elements": 120
+    },
+    "style.css": {
+      "size_kb": 32,
+      "purpose": "Responsive styling with CSS variables",
+      "themes": 4,
+      "breakpoints": 3
+    },
+    "script.js": {
+      "size_kb": 62,
+      "purpose": "All frontend logic",
+      "functions": 45,
+      "wrapping": "DOMContentLoaded IIFE"
+    },
+    "img/logo_lspd.png": {
+      "size_b": 99,
+      "format": "PNG"
+    },
+    "img/logo_ems.png": {
+      "size_b": 98,
+      "format": "PNG"
+    },
+    "img/logo_fbi.png": {
+      "size_b": 101,
+      "format": "PNG"
+    }
+  },
+  "testing": {
+    "test_data": {
+      "people": 4,
+      "gallery_images": 2,
+      "incidents": 3,
+      "bolos": 2,
+      "users": 4
+    },
+    "quick_test": [
+      "Search for 'dupont'",
+      "Click on a person → see record",
+      "Edit medical history",
+      "Upload a photo to gallery",
+      "Toggle realtime notifications",
+      "Change role and verify logo/theme"
+    ]
+  },
+  "deployment": {
+    "local_testing": {
+      "method": "HTTP Server",
+      "recommended": "python -m http.server 8000",
+      "fallback": "file:// protocol (some features may be limited)"
+    },
+    "production": {
+      "platform": "FiveM",
+      "integration": "NUI callbacks",
+      "endpoints": "Server-side REST API required"
+    }
+  },
+  "browser_support": {
+    "chrome": true,
+    "firefox": true,
+    "safari": true,
+    "edge": true,
+    "ie11": false
+  },
+  "known_issues": [],
+  "todo": [
+    "Test all features in FiveM environment",
+    "Integrate with server-side endpoints",
+    "Add server-side validation",
+    "Implement real photo storage",
+    "Add audit logging"
+  ]
+}
