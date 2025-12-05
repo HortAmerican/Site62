@@ -3,9 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intranet Benny's - Fantastic FiveM</title>
+    <title>Benny's Pro - Intranet Employés | Fantastic FiveM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --primary-dark: #0c0e1a;
+            --primary: #1a1d3a;
+            --secondary: #25294a;
+            --accent: #ff3a3a;
+            --accent-light: #ff6b6b;
+            --accent-glow: rgba(255, 58, 58, 0.3);
+            --success: #00d4aa;
+            --warning: #ffcc00;
+            --info: #4d8af0;
+            --light: #f0f2ff;
+            --gray: #8a8db9;
+            --dark-gray: #3a3d5e;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 15px 40px rgba(255, 58, 58, 0.2);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,22 +38,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        :root {
-            --primary: #0d1b2a;
-            --secondary: #1b263b;
-            --accent: #e63946;
-            --accent-light: #ff6b6b;
-            --success: #2a9d8f;
-            --warning: #e9c46a;
-            --light: #f8f9fa;
-            --gray: #adb5bd;
-            --dark-gray: #495057;
-        }
-
         body {
-            background-color: #0a141f;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             color: var(--light);
             line-height: 1.6;
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
@@ -38,337 +52,825 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: radial-gradient(circle at center, var(--primary) 0%, var(--primary-dark) 100%);
             padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-screen::before {
+            content: '';
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%231a1d3a" width="100" height="100"/><path fill="%230c0e1a" d="M0 0h100v100H0z"/><path fill="%2325294a" d="M0 50h100v50H0z"/></svg>') repeat;
+            opacity: 0.05;
+            animation: bgMove 30s linear infinite;
+        }
+
+        @keyframes bgMove {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .login-container {
-            background-color: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
             padding: 3rem;
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
         }
 
         .login-logo {
-            text-align: center;
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .login-logo i {
-            font-size: 3.5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            animation: pulse 2s infinite;
         }
 
-        .login-logo h1 {
-            font-size: 2rem;
-            text-transform: uppercase;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .login-title {
+            font-size: 2.2rem;
+            font-weight: 800;
             letter-spacing: 1.5px;
-        }
-
-        .login-logo span {
-            color: var(--accent);
-        }
-
-        .login-logo p {
-            color: var(--gray);
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--gray);
+            font-size: 0.95rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.6rem;
             font-weight: 600;
             color: var(--light);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .form-group input, .form-group select {
+        .form-label i {
+            color: var(--accent);
+        }
+
+        .form-input {
             width: 100%;
-            padding: 0.9rem 1.2rem;
-            background-color: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
             color: var(--light);
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .toggle-password:hover {
+            color: var(--accent);
         }
 
         .login-btn {
             width: 100%;
-            padding: 1rem;
-            background-color: var(--accent);
-            color: var(--light);
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             margin-top: 1rem;
+            box-shadow: 0 8px 25px rgba(255, 58, 58, 0.4);
+            position: relative;
+            overflow: hidden;
         }
 
         .login-btn:hover {
-            background-color: var(--accent-light);
             transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(230, 57, 70, 0.3);
+            box-shadow: 0 12px 35px rgba(255, 58, 58, 0.5);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .login-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(30, 30);
+                opacity: 0;
+            }
         }
 
         .login-footer {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             color: var(--gray);
             font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1.5rem;
         }
 
-        /* Main Dashboard (hidden until login) */
+        .server-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .server-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .server-info-item i {
+            color: var(--accent);
+        }
+
+        /* Dashboard */
         .dashboard {
             display: none;
+            min-height: 100vh;
         }
 
-        /* Header Dashboard */
+        /* Header */
         .dashboard-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            padding: 1rem 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            height: var(--header-height);
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            position: sticky;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        .dashboard-logo {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1.5rem;
         }
 
-        .dashboard-logo i {
-            font-size: 2rem;
-            color: var(--accent);
-        }
-
-        .dashboard-logo h1 {
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--light);
             font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .dashboard-logo span {
-            color: var(--accent);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background-color: var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .header-logo i {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .header-logo h1 {
+            font-size: 1.5rem;
             font-weight: 700;
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-bell {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-bell:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .user-menu:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
         }
 
         .user-name {
             font-weight: 600;
+            font-size: 0.95rem;
         }
 
-        .logout-btn {
-            background-color: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--gray);
         }
 
-        .logout-btn:hover {
-            background-color: var(--accent);
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        .user-menu.active .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        /* Dashboard Content */
-        .dashboard-content {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            min-height: calc(100vh - 80px);
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-item.logout {
+            color: var(--accent);
         }
 
         /* Sidebar */
         .sidebar {
-            background-color: var(--secondary);
-            padding: 2rem 1rem;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            left: 0;
+            top: var(--header-height);
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--glass-border);
+            padding: 1.5rem 0;
+            transition: var(--transition);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
         }
 
         .sidebar-nav {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            padding: 0 1rem;
         }
 
         .nav-item {
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 1rem;
-            text-decoration: none;
+            padding: 1rem 1.5rem;
             color: var(--light);
-            transition: all 0.3s;
-            font-weight: 600;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
         .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+            transform: translateX(5px);
         }
 
         .nav-item.active {
-            background-color: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+            box-shadow: 0 5px 15px var(--accent-glow);
         }
 
         .nav-item i {
             font-size: 1.2rem;
-            width: 25px;
+            width: 24px;
+        }
+
+        .nav-badge {
+            position: absolute;
+            right: 1.5rem;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .workshop-status {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .status-subtext {
+            font-size: 0.8rem;
+            color: var(--gray);
         }
 
         /* Main Content */
         .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
             padding: 2rem;
+            transition: var(--transition);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
         }
 
         .page-title {
             font-size: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--accent);
+            font-weight: 800;
+            position: relative;
             display: inline-block;
         }
 
+        .page-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 2px;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px var(--accent-glow);
+        }
+
+        .action-btn i {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border: none;
+        }
+
         /* Stats Cards */
-        .stats-cards {
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2.5rem;
         }
 
         .stat-card {
-            background-color: var(--secondary);
-            border-radius: 10px;
+            background: var(--glass);
+            border-radius: var(--border-radius);
             padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+            color: white;
         }
 
-        .stat-1 .stat-icon {
-            background-color: rgba(42, 157, 143, 0.2);
+        .stat-change {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-change.positive {
+            background: rgba(0, 212, 170, 0.2);
             color: var(--success);
         }
 
-        .stat-2 .stat-icon {
-            background-color: rgba(233, 196, 106, 0.2);
-            color: var(--warning);
-        }
-
-        .stat-3 .stat-icon {
-            background-color: rgba(230, 57, 70, 0.2);
+        .stat-change.negative {
+            background: rgba(255, 58, 58, 0.2);
             color: var(--accent);
         }
 
-        .stat-4 .stat-icon {
-            background-color: rgba(64, 123, 255, 0.2);
-            color: #407bff;
+        .stat-body h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .stat-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .stat-info p {
+        .stat-body p {
             color: var(--gray);
             font-size: 0.9rem;
         }
 
+        /* Charts */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .chart-card {
+            background: var(--glass);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-btn {
+            background: none;
+            border: 1px solid var(--glass-border);
+            color: var(--gray);
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chart-btn:hover, .chart-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
         /* Tables */
-        .table-container {
-            background-color: var(--secondary);
-            border-radius: 10px;
+        .table-card {
+            background: var(--glass);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--glass-border);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             margin-bottom: 2rem;
         }
 
         .table-header {
             padding: 1.5rem;
-            background-color: rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .table-header h3 {
             font-size: 1.3rem;
+            font-weight: 700;
         }
 
-        .add-btn {
-            background-color: var(--accent);
+        .table-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .table-search {
+            position: relative;
+        }
+
+        .table-search input {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
             color: var(--light);
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-size: 0.9rem;
+            width: 200px;
+            transition: var(--transition);
         }
 
-        .add-btn:hover {
-            background-color: var(--accent-light);
+        .table-search input:focus {
+            outline: none;
+            border-color: var(--accent);
+            width: 250px;
+        }
+
+        .table-search i {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
         }
 
         table {
@@ -377,172 +879,444 @@
         }
 
         thead {
-            background-color: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         th {
-            padding: 1rem;
+            padding: 1.2rem 1rem;
             text-align: left;
             font-weight: 600;
             color: var(--gray);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--glass-border);
+            white-space: nowrap;
         }
 
         td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+        tbody tr {
+            transition: var(--transition);
         }
 
-        .status {
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .status-en-cours {
-            background-color: rgba(233, 196, 106, 0.2);
-            color: var(--warning);
-        }
-
-        .status-termine {
-            background-color: rgba(42, 157, 143, 0.2);
+        .status-success {
+            background: rgba(0, 212, 170, 0.2);
             color: var(--success);
         }
 
-        .status-attente {
-            background-color: rgba(108, 117, 125, 0.2);
-            color: var(--gray);
+        .status-warning {
+            background: rgba(255, 204, 0, 0.2);
+            color: var(--warning);
         }
 
-        .action-btn {
-            background-color: transparent;
-            border: 1px solid var(--accent);
+        .status-danger {
+            background: rgba(255, 58, 58, 0.2);
             color: var(--accent);
-            padding: 0.3rem 0.8rem;
-            border-radius: 5px;
+        }
+
+        .status-info {
+            background: rgba(77, 138, 240, 0.2);
+            color: var(--info);
+        }
+
+        .table-actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .table-action-btn {
+            background: none;
+            border: 1px solid var(--glass-border);
+            color: var(--gray);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            margin-right: 0.5rem;
+            transition: var(--transition);
         }
 
-        .action-btn:hover {
-            background-color: var(--accent);
-            color: var(--light);
+        .table-action-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
         }
 
-        /* Forms */
-        .form-container {
-            background-color: var(--secondary);
-            border-radius: 10px;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
         }
 
-        .form-row {
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 58, 58, 0.2);
+            color: var(--accent);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .form-actions {
+        .form-footer {
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
             margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
         }
 
-        .cancel-btn {
-            background-color: transparent;
-            border: 1px solid var(--gray);
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Calendar */
+        .calendar-card {
+            background: var(--glass);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .calendar-nav button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-nav button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 700;
             color: var(--gray);
-            padding: 0.8rem 1.8rem;
-            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .calendar-date {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            transition: var(--transition);
+            position: relative;
         }
 
-        .cancel-btn:hover {
-            background-color: var(--gray);
-            color: var(--light);
+        .calendar-date:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .submit-btn {
-            background-color: var(--accent);
-            color: var(--light);
-            border: none;
-            padding: 0.8rem 1.8rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+        .calendar-date.today {
+            background: rgba(255, 58, 58, 0.2);
+            color: var(--accent);
+            font-weight: 700;
         }
 
-        .submit-btn:hover {
-            background-color: var(--accent-light);
+        .calendar-date.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
         }
 
-        /* Pages */
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
+        .calendar-date.selected {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+            box-shadow: 0 5px 15px var(--accent-glow);
         }
 
         /* Responsive */
-        @media (max-width: 992px) {
-            .dashboard-content {
-                grid-template-columns: 1fr;
-            }
-            
+        @media (max-width: 1200px) {
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
             }
             
-            .stats-cards {
-                grid-template-columns: repeat(2, 1fr);
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .dashboard-header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+            .header-right .user-info {
+                display: none;
             }
             
-            .stats-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .table-header {
+            .page-header {
                 flex-direction: column;
-                gap: 1rem;
                 align-items: flex-start;
             }
             
-            .login-container {
-                padding: 2rem 1.5rem;
+            .page-actions {
+                width: 100%;
             }
             
-            .main-content {
-                padding: 1.5rem;
+            .action-btn {
+                flex: 1;
+                justify-content: center;
             }
             
-            .form-row {
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .table-search input {
+                width: 150px;
+            }
+            
+            .table-search input:focus {
+                width: 150px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .animate-slideInLeft {
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--glass-border);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification-toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--secondary);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--accent);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 3000;
+            max-width: 350px;
+        }
+
+        .notification-toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 58, 58, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .notification-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .notification-content p {
+            font-size: 0.9rem;
+            color: var(--gray);
         }
     </style>
 </head>
@@ -550,147 +1324,314 @@
     <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
-            <div class="login-logo">
-                <i class="fas fa-tools"></i>
-                <h1>Benny's <span>Intranet</span></h1>
-                <p>Accès réservé aux employés - Serveur Fantastic</p>
+            <div class="login-header">
+                <div class="login-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h1 class="login-title">Benny's Pro</h1>
+                    <p class="login-subtitle">Système de gestion interne - Serveur Fantastic FiveM</p>
+                </div>
             </div>
             
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="employeeId">ID Employé</label>
-                    <input type="text" id="employeeId" placeholder="Ex: BNY-001" required>
+                    <label for="employeeId" class="form-label">
+                        <i class="fas fa-id-card"></i>
+                        ID Employé
+                    </label>
+                    <input type="text" id="employeeId" class="form-input" placeholder="BNY-001" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" placeholder="Votre mot de passe" required>
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock"></i>
+                        Mot de passe
+                    </label>
+                    <div class="password-container">
+                        <input type="password" id="password" class="form-input" placeholder="Votre mot de passe" required>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="role">Rôle</label>
-                    <select id="role" required>
+                    <label for="role" class="form-label">
+                        <i class="fas fa-user-tag"></i>
+                        Rôle
+                    </label>
+                    <select id="role" class="form-input" required>
                         <option value="">Sélectionnez votre rôle</option>
                         <option value="mecanicien">Mécanicien</option>
                         <option value="patron">Patron/Gérant</option>
-                        <option value="reception">Réception</option>
+                        <option value="reception">Réceptionniste</option>
                         <option value="customiser">Customiseur</option>
+                        <option value="gestionnaire">Gestionnaire</option>
                     </select>
                 </div>
                 
-                <button type="submit" class="login-btn">Se Connecter</button>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Se Connecter
+                </button>
             </form>
             
             <div class="login-footer">
-                <p>En cas de problème, contactez le gérant du Benny's</p>
-                <p>Serveur Fantastic FiveM</p>
+                <p>Accès réservé aux employés du Benny's Original Motor Works</p>
+                <div class="server-info">
+                    <div class="server-info-item">
+                        <i class="fas fa-server"></i>
+                        <span>Serveur: Fantastic</span>
+                    </div>
+                    <div class="server-info-item">
+                        <i class="fas fa-users"></i>
+                        <span>Version: 2.0.1</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Dashboard (hidden until login) -->
+    <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
-        <!-- Dashboard Header -->
+        <!-- Header -->
         <header class="dashboard-header">
-            <div class="dashboard-logo">
-                <i class="fas fa-tools"></i>
-                <h1>Intranet <span>Benny's</span></h1>
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-logo">
+                    <i class="fas fa-tools"></i>
+                    <h1>Benny's Pro</h1>
+                </div>
             </div>
             
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">JD</div>
-                <div>
-                    <div class="user-name" id="userName">John Doe</div>
-                    <div class="user-role" id="userRole">Mécanicien</div>
+            <div class="header-right">
+                <button class="notification-bell" id="notificationBell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">3</span>
+                </button>
+                
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">John Doe</div>
+                        <div class="user-role" id="userRole">Mécanicien</div>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                    
+                    <div class="user-dropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            <span>Mon Profil</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Paramètres</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Aide & Support</span>
+                        </a>
+                        <div class="dropdown-item logout" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnexion</span>
+                        </div>
+                    </div>
                 </div>
-                <button class="logout-btn" id="logoutBtn">Déconnexion</button>
             </div>
         </header>
         
-        <!-- Dashboard Content -->
-        <div class="dashboard-content">
-            <!-- Sidebar -->
-            <nav class="sidebar">
-                <div class="sidebar-nav">
-                    <a href="#dashboard-page" class="nav-item active" data-page="dashboard-page">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                    <a href="#rdv-page" class="nav-item" data-page="rdv-page">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Rendez-vous</span>
-                    </a>
-                    <a href="#vehicules-page" class="nav-item" data-page="vehicules-page">
-                        <i class="fas fa-car"></i>
-                        <span>Véhicules en cours</span>
-                    </a>
-                    <a href="#stock-page" class="nav-item" data-page="stock-page">
-                        <i class="fas fa-boxes"></i>
-                        <span>Stock & Pièces</span>
-                    </a>
-                    <a href="#employes-page" class="nav-item" data-page="employes-page">
-                        <i class="fas fa-users"></i>
-                        <span>Employés</span>
-                    </a>
-                    <a href="#documents-page" class="nav-item" data-page="documents-page">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Documents</span>
-                    </a>
-                </div>
-            </nav>
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-nav">
+                <a href="#dashboard-page" class="nav-item active" data-page="dashboard-page">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="#rdv-page" class="nav-item" data-page="rdv-page">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Rendez-vous</span>
+                    <span class="nav-badge">5</span>
+                </a>
+                <a href="#vehicules-page" class="nav-item" data-page="vehicules-page">
+                    <i class="fas fa-car"></i>
+                    <span>Véhicules</span>
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#stock-page" class="nav-item" data-page="stock-page">
+                    <i class="fas fa-boxes"></i>
+                    <span>Stock & Pièces</span>
+                </a>
+                <a href="#finances-page" class="nav-item" data-page="finances-page">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Finances</span>
+                </a>
+                <a href="#employes-page" class="nav-item" data-page="employes-page">
+                    <i class="fas fa-users"></i>
+                    <span>Employés</span>
+                </a>
+                <a href="#clients-page" class="nav-item" data-page="clients-page">
+                    <i class="fas fa-address-book"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="#documents-page" class="nav-item" data-page="documents-page">
+                    <i class="fas fa-folder"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="#parametres-page" class="nav-item" data-page="parametres-page">
+                    <i class="fas fa-cogs"></i>
+                    <span>Paramètres</span>
+                </a>
+            </div>
             
-            <!-- Main Content -->
-            <main class="main-content">
-                <!-- Dashboard Page -->
-                <div class="page active" id="dashboard-page">
+            <div class="sidebar-footer">
+                <div class="workshop-status">
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <div class="status-text">Atelier ouvert</div>
+                    </div>
+                    <div class="status-subtext">8 employés en service</div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard-page">
+                <div class="page-header">
                     <h2 class="page-title">Tableau de bord</h2>
-                    
-                    <div class="stats-cards">
-                        <div class="stat-card stat-1">
-                            <div class="stat-icon">
+                    <div class="page-actions">
+                        <button class="action-btn" id="quickAddAppointment">
+                            <i class="fas fa-plus"></i>
+                            Nouveau RDV
+                        </button>
+                        <button class="action-btn btn-primary" id="quickAddVehicle">
+                            <i class="fas fa-car"></i>
+                            Ajouter véhicule
+                        </button>
+                        <button class="action-btn" id="generateReport">
+                            <i class="fas fa-file-export"></i>
+                            Générer rapport
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
                                 <i class="fas fa-wrench"></i>
                             </div>
-                            <div class="stat-info">
-                                <h3 id="vehiclesInProgress">12</h3>
-                                <p>Véhicules en cours</p>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                12%
                             </div>
                         </div>
-                        
-                        <div class="stat-card stat-2">
-                            <div class="stat-icon">
-                                <i class="fas fa-calendar-check"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 id="todayAppointments">5</h3>
-                                <p>RDV aujourd'hui</p>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card stat-3">
-                            <div class="stat-icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 id="urgentTasks">3</h3>
-                                <p>Tâches urgentes</p>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card stat-4">
-                            <div class="stat-icon">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 id="todayRevenue">$24,580</h3>
-                                <p>Chiffre du jour</p>
-                            </div>
+                        <div class="stat-body">
+                            <h3 id="vehiclesInProgress">12</h3>
+                            <p>Véhicules en cours</p>
                         </div>
                     </div>
                     
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Activités récentes</h3>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                24%
+                            </div>
                         </div>
+                        <div class="stat-body">
+                            <h3 id="todayRevenue">$24,580</h3>
+                            <p>Chiffre d'affaires du jour</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ffcc00, #ffdd44);">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                3%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="todayAppointments">8</h3>
+                            <p>Rendez-vous aujourd'hui</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4d8af0, #6ba3ff);">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                5%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="employeeCount">14</h3>
+                            <p>Employés actifs</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Activité de l'atelier (7 jours)</h3>
+                            <div class="chart-actions">
+                                <button class="chart-btn active">7j</button>
+                                <button class="chart-btn">30j</button>
+                                <button class="chart-btn">90j</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Répartition des services</h3>
+                            <div class="chart-actions">
+                                <button class="chart-btn active"><i class="fas fa-chart-pie"></i></button>
+                                <button class="chart-btn"><i class="fas fa-chart-bar"></i></button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="servicesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activities -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Activités récentes</h3>
+                        <div class="table-actions">
+                            <div class="table-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Rechercher...">
+                            </div>
+                            <button class="action-btn">
+                                <i class="fas fa-filter"></i>
+                                Filtrer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
@@ -702,283 +1643,808 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="recentActivities">
-                                <!-- Les activités seront ajoutées via JavaScript -->
+                            <tbody id="recentActivitiesTable">
+                                <!-- Rempli par JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
-                <!-- Rendez-vous Page -->
-                <div class="page" id="rdv-page">
+            </div>
+            
+            <!-- Rendez-vous Page -->
+            <div class="page" id="rdv-page">
+                <div class="page-header">
                     <h2 class="page-title">Gestion des rendez-vous</h2>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Rendez-vous à venir</h3>
-                            <button class="add-btn" id="addAppointmentBtn">+ Nouveau RDV</button>
+                    <div class="page-actions">
+                        <button class="action-btn btn-primary" id="newAppointmentBtn">
+                            <i class="fas fa-plus"></i>
+                            Nouveau RDV
+                        </button>
+                        <button class="action-btn" id="importAppointments">
+                            <i class="fas fa-upload"></i>
+                            Importer
+                        </button>
+                        <button class="action-btn" id="exportAppointments">
+                            <i class="fas fa-download"></i>
+                            Exporter
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Calendar -->
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                            <h3 id="currentMonth">Juillet 2023</h3>
+                            <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
                         </div>
+                        <button class="action-btn" id="todayBtn">
+                            <i class="fas fa-calendar-day"></i>
+                            Aujourd'hui
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Rempli par JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Appointments Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Rendez-vous du jour</h3>
+                        <div class="table-actions">
+                            <div class="table-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Rechercher un RDV...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Date/Heure</th>
+                                    <th>Heure</th>
                                     <th>Client</th>
                                     <th>Téléphone</th>
                                     <th>Véhicule</th>
                                     <th>Service</th>
+                                    <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="appointmentsTable">
-                                <!-- Les rendez-vous seront ajoutés via JavaScript -->
+                                <!-- Rempli par JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Véhicules Page -->
+            <div class="page" id="vehicules-page">
+                <div class="page-header">
+                    <h2 class="page-title">Gestion des véhicules</h2>
+                    <div class="page-actions">
+                        <button class="action-btn btn-primary" id="newVehicleBtn">
+                            <i class="fas fa-plus"></i>
+                            Nouveau véhicule
+                        </button>
+                        <button class="action-btn" id="vehicleFilterBtn">
+                            <i class="fas fa-filter"></i>
+                            Filtrer
+                        </button>
+                        <button class="action-btn" id="vehicleStatsBtn">
+                            <i class="fas fa-chart-bar"></i>
+                            Statistiques
+                        </button>
+                    </div>
+                </div>
                 
-                <!-- Véhicules en cours Page -->
-                <div class="page" id="vehicules-page">
-                    <h2 class="page-title">Véhicules en cours de réparation</h2>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Véhicules à l'atelier</h3>
-                            <button class="add-btn" id="addVehicleBtn">+ Ajouter véhicule</button>
+                <!-- Vehicles Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Véhicules à l'atelier</h3>
+                        <div class="table-actions">
+                            <div class="table-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Rechercher un véhicule...">
+                            </div>
+                            <div class="filter-tags" id="vehicleFilters">
+                                <span class="status-badge status-info">Tous: 12</span>
+                                <span class="status-badge status-warning">En cours: 8</span>
+                                <span class="status-badge status-success">Terminés: 3</span>
+                                <span class="status-badge status-danger">Urgent: 1</span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Véhicule</th>
                                     <th>Immatriculation</th>
-                                    <th>Propriétaire</th>
-                                    <th>Travaux demandés</th>
-                                    <th>Employé assigné</th>
+                                    <th>Client</th>
+                                    <th>Travaux</th>
+                                    <th>Employé</th>
+                                    <th>Date entrée</th>
                                     <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="vehiclesTable">
-                                <!-- Les véhicules seront ajoutés via JavaScript -->
+                                <!-- Rempli par JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
-                <!-- Stock & Pièces Page -->
-                <div class="page" id="stock-page">
-                    <h2 class="page-title">Gestion du stock</h2>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Pièces en stock</h3>
-                            <button class="add-btn" id="addPartBtn">+ Ajouter pièce</button>
+            </div>
+            
+            <!-- Pages suivantes seraient similaires -->
+            
+        </main>
+    </div>
+
+    <!-- Modal Nouveau Rendez-vous -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nouveau rendez-vous</h3>
+                <button class="modal-close" id="closeAppointmentModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="appointmentClient" class="form-label">Client</label>
+                            <select id="appointmentClient" class="form-input" required>
+                                <option value="">Sélectionner un client</option>
+                                <option value="1">Michael De Santa</option>
+                                <option value="2">Franklin Clinton</option>
+                                <option value="3">Trevor Philips</option>
+                            </select>
                         </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Référence</th>
-                                    <th>Nom de la pièce</th>
-                                    <th>Type</th>
-                                    <th>Quantité</th>
-                                    <th>Seuil d'alerte</th>
-                                    <th>Prix unitaire</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="stockTable">
-                                <!-- Les pièces seront ajoutées via JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Employés Page -->
-                <div class="page" id="employes-page">
-                    <h2 class="page-title">Gestion des employés</h2>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Équipe Benny's</h3>
-                            <button class="add-btn" id="addEmployeeBtn">+ Ajouter employé</button>
+                        
+                        <div class="form-group">
+                            <label for="appointmentVehicle" class="form-label">Véhicule</label>
+                            <input type="text" id="appointmentVehicle" class="form-input" placeholder="Modèle du véhicule" required>
                         </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID Employé</th>
-                                    <th>Nom</th>
-                                    <th>Rôle</th>
-                                    <th>Téléphone</th>
-                                    <th>Disponibilité</th>
-                                    <th>Salaire</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="employeesTable">
-                                <!-- Les employés seront ajoutés via JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Documents Page -->
-                <div class="page" id="documents-page">
-                    <h2 class="page-title">Documents internes</h2>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Documents disponibles</h3>
+                        
+                        <div class="form-group">
+                            <label for="appointmentDate" class="form-label">Date</label>
+                            <input type="date" id="appointmentDate" class="form-input" required>
                         </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nom du document</th>
-                                    <th>Type</th>
-                                    <th>Date de modification</th>
-                                    <th>Taille</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><i class="fas fa-file-pdf"></i> Procédures de sécurité</td>
-                                    <td>PDF</td>
-                                    <td>15/06/2023</td>
-                                    <td>2.4 MB</td>
-                                    <td><button class="action-btn">Télécharger</button></td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-file-excel"></i> Tarifs des services</td>
-                                    <td>Excel</td>
-                                    <td>22/06/2023</td>
-                                    <td>1.1 MB</td>
-                                    <td><button class="action-btn">Télécharger</button></td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-file-word"></i> Contrat type</td>
-                                    <td>Word</td>
-                                    <td>10/06/2023</td>
-                                    <td>3.2 MB</td>
-                                    <td><button class="action-btn">Télécharger</button></td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-file-alt"></i> Liste des fournisseurs</td>
-                                    <td>PDF</td>
-                                    <td>05/06/2023</td>
-                                    <td>850 KB</td>
-                                    <td><button class="action-btn">Télécharger</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        
+                        <div class="form-group">
+                            <label for="appointmentTime" class="form-label">Heure</label>
+                            <input type="time" id="appointmentTime" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentService" class="form-label">Service</label>
+                            <select id="appointmentService" class="form-input" required>
+                                <option value="">Sélectionner un service</option>
+                                <option value="revision">Révision complète</option>
+                                <option value="reparation">Réparation</option>
+                                <option value="customisation">Customisation</option>
+                                <option value="peinture">Peinture</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentEmployee" class="form-label">Employé assigné</label>
+                            <select id="appointmentEmployee" class="form-input">
+                                <option value="">Auto-assigner</option>
+                                <option value="1">Jean Dupont</option>
+                                <option value="2">Marie Lambert</option>
+                                <option value="3">Ahmed Benali</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </main>
+                    
+                    <div class="form-group">
+                        <label for="appointmentNotes" class="form-label">Notes additionnelles</label>
+                        <textarea id="appointmentNotes" class="form-input" rows="3" placeholder="Informations supplémentaires..."></textarea>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="action-btn btn-secondary" id="cancelAppointment">
+                            Annuler
+                        </button>
+                        <button type="submit" class="action-btn btn-primary">
+                            <i class="fas fa-calendar-plus"></i>
+                            Créer le rendez-vous
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+        </div>
+        <div class="notification-content">
+            <h4 id="toastTitle">Notification</h4>
+            <p id="toastMessage">Message de notification</p>
         </div>
     </div>
 
     <script>
-        // Données de démonstration
+        // Données de démonstration étendues
         const demoData = {
+            currentUser: {
+                id: "BNY-001",
+                name: "Jean Dupont",
+                role: "Mécanicien",
+                avatar: "JD"
+            },
+            
             employees: [
-                { id: "BNY-001", name: "Jean Dupont", role: "Mécanicien", phone: "555-0101", available: "Disponible", salary: "$3,200" },
-                { id: "BNY-002", name: "Marie Lambert", role: "Réception", phone: "555-0102", available: "En pause", salary: "$2,800" },
-                { id: "BNY-003", name: "Ahmed Benali", role: "Customiseur", phone: "555-0103", available: "Disponible", salary: "$3,500" },
-                { id: "BNY-004", name: "Lucas Moreau", role: "Mécanicien", phone: "555-0104", available: "En congé", salary: "$3,100" },
-                { id: "BNY-005", name: "Sophie Martin", role: "Patron/Gérant", phone: "555-0105", available: "Disponible", salary: "$4,500" }
+                { id: "BNY-001", name: "Jean Dupont", role: "Mécanicien", phone: "555-0101", status: "active", salary: "$3,200" },
+                { id: "BNY-002", name: "Marie Lambert", role: "Réceptionniste", phone: "555-0102", status: "active", salary: "$2,800" },
+                { id: "BNY-003", name: "Ahmed Benali", role: "Customiseur", phone: "555-0103", status: "active", salary: "$3,500" },
+                { id: "BNY-004", name: "Lucas Moreau", role: "Mécanicien", phone: "555-0104", status: "inactive", salary: "$3,100" },
+                { id: "BNY-005", name: "Sophie Martin", role: "Patron/Gérant", phone: "555-0105", status: "active", salary: "$4,500" },
+                { id: "BNY-006", name: "Thomas Leroy", role: "Mécanicien", phone: "555-0106", status: "active", salary: "$3,000" },
+                { id: "BNY-007", name: "Emma Petit", role: "Réceptionniste", phone: "555-0107", status: "active", salary: "$2,700" }
             ],
+            
             appointments: [
-                { date: "28/06/2023 09:30", client: "Michael De Santa", phone: "555-1234", vehicle: "Obey Tailgater", service: "Révision complète" },
-                { date: "28/06/2023 11:00", client: "Franklin Clinton", phone: "555-5678", vehicle: "Bravado Banshee", service: "Customisation" },
-                { date: "28/06/2023 14:30", client: "Trevor Philips", phone: "555-9012", vehicle: "Canis Bodhi", service: "Réparation moteur" },
-                { date: "29/06/2023 10:00", client: "Lamar Davis", phone: "555-3456", vehicle: "Declasse Sabre Turbo", service: "Peinture" },
-                { date: "29/06/2023 15:00", client: "Jimmy De Santa", phone: "555-7890", vehicle: "Dinka Jester", service: "Tuning performance" }
+                { id: 1, date: "2023-07-28", time: "09:30", client: "Michael De Santa", phone: "555-1234", vehicle: "Obey Tailgater", service: "Révision complète", status: "confirmed", employee: "Jean Dupont" },
+                { id: 2, date: "2023-07-28", time: "11:00", client: "Franklin Clinton", phone: "555-5678", vehicle: "Bravado Banshee", service: "Customisation complète", status: "pending", employee: "Ahmed Benali" },
+                { id: 3, date: "2023-07-28", time: "14:30", client: "Trevor Philips", phone: "555-9012", vehicle: "Canis Bodhi", service: "Réparation moteur", status: "confirmed", employee: "Lucas Moreau" },
+                { id: 4, date: "2023-07-29", time: "10:00", client: "Lamar Davis", phone: "555-3456", vehicle: "Declasse Sabre Turbo", service: "Peinture métallisée", status: "pending", employee: null },
+                { id: 5, date: "2023-07-29", time: "15:00", client: "Jimmy De Santa", phone: "555-7890", vehicle: "Dinka Jester", service: "Tuning performance", status: "confirmed", employee: "Thomas Leroy" }
             ],
+            
             vehicles: [
-                { model: "Karin Sultan", plate: "LS-789-BNY", owner: "Michael De Santa", work: "Révision + Peinture", assigned: "Jean Dupont", status: "En cours" },
-                { model: "Grotti Turismo R", plate: "LS-456-TUR", owner: "Franklin Clinton", work: "Kit carrosserie", assigned: "Ahmed Benali", status: "En attente" },
-                { model: "Vapid Dominator", plate: "LS-321-DOM", owner: "Trevor Philips", work: "Réparation transmission", assigned: "Lucas Moreau", status: "Terminé" },
-                { model: "Benefactor Schafter", plate: "LS-654-SCH", owner: "Lester Crest", work: "Système audio", assigned: "Ahmed Benali", status: "En cours" }
+                { id: 1, model: "Karin Sultan", plate: "LS-789-BNY", owner: "Michael De Santa", work: "Révision + Peinture", assigned: "Jean Dupont", status: "in-progress", entryDate: "2023-07-25", priority: "normal" },
+                { id: 2, model: "Grotti Turismo R", plate: "LS-456-TUR", owner: "Franklin Clinton", work: "Kit carrosserie + Peinture", assigned: "Ahmed Benali", status: "waiting", entryDate: "2023-07-26", priority: "high" },
+                { id: 3, model: "Vapid Dominator", plate: "LS-321-DOM", owner: "Trevor Philips", work: "Réparation transmission", assigned: "Lucas Moreau", status: "completed", entryDate: "2023-07-20", priority: "normal" },
+                { id: 4, model: "Benefactor Schafter", plate: "LS-654-SCH", owner: "Lester Crest", work: "Système audio haut de gamme", assigned: "Ahmed Benali", status: "in-progress", entryDate: "2023-07-27", priority: "urgent" },
+                { id: 5, model: "Pfister Comet", plate: "LS-987-COM", owner: "Amanda De Santa", work: "Customisation complète", assigned: "Thomas Leroy", status: "in-progress", entryDate: "2023-07-26", priority: "normal" }
             ],
-            stock: [
-                { ref: "BNY-MOT-001", name: "Moteur V8", type: "Moteur", quantity: 3, alert: 2, price: "$4,500" },
-                { ref: "BNY-FRE-005", name: "Disques de frein", type: "Freinage", quantity: 12, alert: 5, price: "$120" },
-                { ref: "BNY-SUS-012", name: "Kit suspension", type: "Suspension", quantity: 5, alert: 3, price: "$850" },
-                { ref: "BNY-PEI-023", name: "Peinture rouge métallisé", type: "Peinture", quantity: 8, alert: 4, price: "$65" },
-                { ref: "BNY-ECH-008", name: "Echappement sport", type: "Performance", quantity: 6, alert: 3, price: "$320" }
+            
+            recentActivities: [
+                { id: 1, vehicle: "Karin Sultan", client: "Michael De Santa", service: "Révision", employee: "Jean Dupont", status: "in-progress", time: "2h ago" },
+                { id: 2, vehicle: "Benefactor Schafter", client: "Lester Crest", service: "Audio", employee: "Ahmed Benali", status: "in-progress", time: "3h ago" },
+                { id: 3, vehicle: "Vapid Dominator", client: "Trevor Philips", service: "Transmission", employee: "Lucas Moreau", status: "completed", time: "1d ago" },
+                { id: 4, vehicle: "Pfister Comet", client: "Amanda De Santa", service: "Customisation", employee: "Thomas Leroy", status: "in-progress", time: "2d ago" }
+            ],
+            
+            statistics: {
+                weeklyActivity: [65, 59, 80, 81, 56, 55, 40],
+                servicesDistribution: [30, 25, 20, 15, 10]
+            }
+        };
+
+        // État de l'application
+        const appState = {
+            currentPage: 'dashboard-page',
+            calendarDate: new Date(),
+            notifications: [
+                { id: 1, title: "Nouveau rendez-vous", message: "Michael De Santa à 9h30", time: "10 min", read: false },
+                { id: 2, title: "Stock faible", message: "Peinture rouge en rupture", time: "1h", read: false },
+                { id: 3, title: "Véhicule terminé", message: "Vapid Dominator prêt", time: "2h", read: false }
             ]
         };
 
-        // Gestion de la connexion
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogin();
+            initDashboard();
+            initCharts();
+            loadDemoData();
+            setupEventListeners();
             
-            const employeeId = document.getElementById('employeeId').value;
-            const password = document.getElementById('password').value;
-            const role = document.getElementById('role').value;
-            
-            // Simulation de connexion (dans un vrai système, vérification avec serveur)
-            if (employeeId && password && role) {
-                // Trouver l'employé correspondant
-                const employee = demoData.employees.find(emp => emp.id === employeeId);
-                const name = employee ? employee.name : "Employé Benny's";
-                
-                // Mettre à jour l'interface avec les infos de l'utilisateur
-                document.getElementById('userName').textContent = name;
-                document.getElementById('userRole').textContent = getRoleName(role);
-                document.getElementById('userAvatar').textContent = getInitials(name);
-                
-                // Afficher le tableau de bord
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-                
-                // Charger les données initiales
-                loadDashboardData();
-                loadAppointments();
-                loadVehicles();
-                loadStock();
-                loadEmployees();
-            } else {
-                alert('Veuillez remplir tous les champs');
-            }
+            // Pré-remplir le formulaire de login pour la démo
+            document.getElementById('employeeId').value = 'BNY-001';
+            document.getElementById('password').value = 'benny2023';
+            document.getElementById('role').value = 'mecanicien';
         });
 
-        // Gestion de la déconnexion
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('loginForm').reset();
-        });
-
-        // Navigation entre les pages
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
+        // Initialisation du système de login
+        function initLogin() {
+            const loginForm = document.getElementById('loginForm');
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            // Login form submission
+            loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Retirer la classe active de tous les liens
-                document.querySelectorAll('.nav-item').forEach(link => {
-                    link.classList.remove('active');
-                });
+                const employeeId = document.getElementById('employeeId').value;
+                const password = document.getElementById('password').value;
+                const role = document.getElementById('role').value;
                 
-                // Ajouter la classe active au lien cliqué
-                this.classList.add('active');
-                
-                // Cacher toutes les pages
-                document.querySelectorAll('.page').forEach(page => {
-                    page.classList.remove('active');
-                });
-                
-                // Afficher la page correspondante
-                const pageId = this.getAttribute('data-page');
-                document.getElementById(pageId).classList.add('active');
+                if (employeeId && password && role) {
+                    // Simulation de vérification
+                    const employee = demoData.employees.find(emp => emp.id === employeeId);
+                    
+                    if (employee || employeeId === 'BNY-001') {
+                        const name = employee ? employee.name : "Jean Dupont";
+                        const avatar = getInitials(name);
+                        
+                        // Mettre à jour l'interface
+                        document.getElementById('userName').textContent = name;
+                        document.getElementById('userRole').textContent = getRoleName(role);
+                        document.getElementById('userAvatar').textContent = avatar;
+                        
+                        // Afficher le dashboard
+                        document.getElementById('loginScreen').style.display = 'none';
+                        document.getElementById('dashboard').style.display = 'block';
+                        
+                        // Charger les données
+                        loadDashboardData();
+                        showNotification('Connexion réussie', `Bienvenue ${name} !`);
+                    } else {
+                        showNotification('Erreur de connexion', 'Identifiants incorrects', 'error');
+                    }
+                } else {
+                    showNotification('Formulaire incomplet', 'Veuillez remplir tous les champs', 'error');
+                }
             });
-        });
+        }
+
+        // Initialisation du dashboard
+        function initDashboard() {
+            // Menu toggle
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            
+            // User menu dropdown
+            document.getElementById('userMenu').addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.user-menu')) {
+                    document.getElementById('userMenu').classList.remove('active');
+                }
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                document.getElementById('dashboard').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('loginForm').reset();
+                showNotification('Déconnexion', 'Vous avez été déconnecté avec succès');
+            });
+            
+            // Navigation entre pages
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Retirer la classe active de tous les liens
+                    document.querySelectorAll('.nav-item').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Ajouter la classe active au lien cliqué
+                    this.classList.add('active');
+                    
+                    // Cacher toutes les pages
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Afficher la page correspondante
+                    const pageId = this.getAttribute('data-page');
+                    document.getElementById(pageId).classList.add('active');
+                    appState.currentPage = pageId;
+                    
+                    // Fermer le sidebar sur mobile
+                    if (window.innerWidth <= 1200) {
+                        document.getElementById('sidebar').classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Initialisation des graphiques
+        function initCharts() {
+            // Activity Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            const activityChart = new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [{
+                        label: 'Véhicules traités',
+                        data: demoData.statistics.weeklyActivity,
+                        borderColor: '#ff3a3a',
+                        backgroundColor: 'rgba(255, 58, 58, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8a8db9'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8a8db9'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Services Chart
+            const servicesCtx = document.getElementById('servicesChart').getContext('2d');
+            const servicesChart = new Chart(servicesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Révisions', 'Réparations', 'Customisation', 'Peinture', 'Performance'],
+                    datasets: [{
+                        data: demoData.statistics.servicesDistribution,
+                        backgroundColor: [
+                            '#ff3a3a',
+                            '#00d4aa',
+                            '#ffcc00',
+                            '#4d8af0',
+                            '#8a8db9'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#f0f2ff',
+                                padding: 20
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // Chargement des données de démonstration
+        function loadDemoData() {
+            // Tableau de bord
+            updateDashboardStats();
+            loadRecentActivities();
+            
+            // Rendez-vous
+            loadAppointments();
+            initCalendar();
+            
+            // Véhicules
+            loadVehicles();
+        }
+
+        // Mise à jour des statistiques
+        function updateDashboardStats() {
+            const inProgressVehicles = demoData.vehicles.filter(v => v.status === 'in-progress').length;
+            const today = new Date().toISOString().split('T')[0];
+            const todayAppointments = demoData.appointments.filter(a => a.date === today).length;
+            const activeEmployees = demoData.employees.filter(e => e.status === 'active').length;
+            
+            document.getElementById('vehiclesInProgress').textContent = inProgressVehicles;
+            document.getElementById('todayAppointments').textContent = todayAppointments;
+            document.getElementById('employeeCount').textContent = activeEmployees;
+        }
+
+        // Chargement des activités récentes
+        function loadRecentActivities() {
+            const table = document.getElementById('recentActivitiesTable');
+            table.innerHTML = '';
+            
+            demoData.recentActivities.forEach(activity => {
+                const row = document.createElement('tr');
+                row.className = 'animate-fadeInUp';
+                row.innerHTML = `
+                    <td><strong>${activity.vehicle}</strong></td>
+                    <td>${activity.client}</td>
+                    <td>${activity.service}</td>
+                    <td>${activity.employee}</td>
+                    <td><span class="status-badge ${getStatusClass(activity.status)}">${getStatusText(activity.status)}</span></td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Voir les détails">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="table-action-btn" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="table-action-btn" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        // Chargement des rendez-vous
+        function loadAppointments() {
+            const table = document.getElementById('appointmentsTable');
+            table.innerHTML = '';
+            
+            const today = new Date().toISOString().split('T')[0];
+            const todayAppointments = demoData.appointments.filter(a => a.date === today);
+            
+            todayAppointments.forEach(appointment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${appointment.time}</td>
+                    <td><strong>${appointment.client}</strong></td>
+                    <td>${appointment.phone}</td>
+                    <td>${appointment.vehicle}</td>
+                    <td>${appointment.service}</td>
+                    <td><span class="status-badge ${getAppointmentStatusClass(appointment.status)}">${getAppointmentStatusText(appointment.status)}</span></td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Confirmer">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="table-action-btn" title="Reporter">
+                                <i class="fas fa-clock"></i>
+                            </button>
+                            <button class="table-action-btn" title="Annuler">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        // Initialisation du calendrier
+        function initCalendar() {
+            updateCalendar();
+            
+            // Navigation du calendrier
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                appState.calendarDate.setMonth(appState.calendarDate.getMonth() - 1);
+                updateCalendar();
+            });
+            
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                appState.calendarDate.setMonth(appState.calendarDate.getMonth() + 1);
+                updateCalendar();
+            });
+            
+            document.getElementById('todayBtn').addEventListener('click', function() {
+                appState.calendarDate = new Date();
+                updateCalendar();
+            });
+        }
+
+        // Mise à jour du calendrier
+        function updateCalendar() {
+            const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+                              "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+            
+            const currentMonth = document.getElementById('currentMonth');
+            currentMonth.textContent = `${monthNames[appState.calendarDate.getMonth()]} ${appState.calendarDate.getFullYear()}`;
+            
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+            
+            // Jours de la semaine
+            const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+            days.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+            
+            // Dates
+            const firstDay = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth(), 1);
+            const lastDay = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth() + 1, 0);
+            const today = new Date();
+            
+            // Ajouter les jours vides du début
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyElement = document.createElement('div');
+                emptyElement.className = 'calendar-date';
+                calendarGrid.appendChild(emptyElement);
+            }
+            
+            // Ajouter les jours du mois
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dateElement = document.createElement('div');
+                dateElement.className = 'calendar-date';
+                dateElement.textContent = day;
+                
+                const currentDate = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth(), day);
+                
+                // Vérifier si c'est aujourd'hui
+                if (currentDate.toDateString() === today.toDateString()) {
+                    dateElement.classList.add('today');
+                }
+                
+                // Vérifier s'il y a des rendez-vous
+                const dateString = currentDate.toISOString().split('T')[0];
+                const hasAppointment = demoData.appointments.some(a => a.date === dateString);
+                if (hasAppointment) {
+                    dateElement.classList.add('has-event');
+                }
+                
+                // Vérifier si la date est sélectionnée
+                if (appState.selectedDate && appState.selectedDate.toDateString() === currentDate.toDateString()) {
+                    dateElement.classList.add('selected');
+                }
+                
+                dateElement.addEventListener('click', function() {
+                    appState.selectedDate = currentDate;
+                    updateCalendar();
+                    // Charger les rendez-vous de cette date
+                    // loadAppointmentsForDate(dateString);
+                });
+                
+                calendarGrid.appendChild(dateElement);
+            }
+        }
+
+        // Chargement des véhicules
+        function loadVehicles() {
+            const table = document.getElementById('vehiclesTable');
+            table.innerHTML = '';
+            
+            demoData.vehicles.forEach(vehicle => {
+                const row = document.createElement('tr');
+                row.className = 'animate-slideInLeft';
+                row.innerHTML = `
+                    <td>
+                        <div><strong>${vehicle.model}</strong></div>
+                        <small class="text-muted">${vehicle.priority === 'urgent' ? '🚨 URGENT' : vehicle.priority === 'high' ? '⚠️ HAUTE' : '🟢 NORMALE'}</small>
+                    </td>
+                    <td>${vehicle.plate}</td>
+                    <td>${vehicle.owner}</td>
+                    <td>${vehicle.work}</td>
+                    <td>${vehicle.assigned}</td>
+                    <td>${formatDate(vehicle.entryDate)}</td>
+                    <td><span class="status-badge ${getVehicleStatusClass(vehicle.status)}">${getVehicleStatusText(vehicle.status)}</span></td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Détails">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                            <button class="table-action-btn" title="Mettre à jour">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="table-action-btn" title="Facturer">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        // Configuration des événements
+        function setupEventListeners() {
+            // Boutons d'action rapide
+            document.getElementById('quickAddAppointment').addEventListener('click', function() {
+                openAppointmentModal();
+            });
+            
+            document.getElementById('newAppointmentBtn').addEventListener('click', function() {
+                openAppointmentModal();
+            });
+            
+            // Modal des rendez-vous
+            document.getElementById('closeAppointmentModal').addEventListener('click', function() {
+                closeAppointmentModal();
+            });
+            
+            document.getElementById('cancelAppointment').addEventListener('click', function() {
+                closeAppointmentModal();
+            });
+            
+            // Soumission du formulaire de rendez-vous
+            document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createAppointment();
+            });
+            
+            // Notification bell
+            document.getElementById('notificationBell').addEventListener('click', function() {
+                showNotification('Notifications', 'Vous avez 3 notifications non lues');
+            });
+        }
+
+        // Modal des rendez-vous
+        function openAppointmentModal() {
+            document.getElementById('appointmentModal').classList.add('active');
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').value = today;
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').classList.remove('active');
+            document.getElementById('appointmentForm').reset();
+        }
+
+        function createAppointment() {
+            const client = document.getElementById('appointmentClient').value;
+            const vehicle = document.getElementById('appointmentVehicle').value;
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+            const service = document.getElementById('appointmentService').value;
+            
+            if (client && vehicle && date && time && service) {
+                // Simuler la création
+                const newId = demoData.appointments.length + 1;
+                const newAppointment = {
+                    id: newId,
+                    date: date,
+                    time: time,
+                    client: document.getElementById('appointmentClient').options[document.getElementById('appointmentClient').selectedIndex].text,
+                    phone: "555-0000",
+                    vehicle: vehicle,
+                    service: document.getElementById('appointmentService').options[document.getElementById('appointmentService').selectedIndex].text,
+                    status: "pending",
+                    employee: null
+                };
+                
+                demoData.appointments.push(newAppointment);
+                
+                closeAppointmentModal();
+                loadAppointments();
+                updateDashboardStats();
+                showNotification('Rendez-vous créé', 'Le rendez-vous a été ajouté avec succès');
+            } else {
+                showNotification('Formulaire incomplet', 'Veuillez remplir tous les champs obligatoires', 'error');
+            }
+        }
 
         // Fonctions utilitaires
         function getRoleName(roleCode) {
             const roles = {
                 'mecanicien': 'Mécanicien',
                 'patron': 'Patron/Gérant',
-                'reception': 'Réception',
-                'customiser': 'Customiseur'
+                'reception': 'Réceptionniste',
+                'customiser': 'Customiseur',
+                'gestionnaire': 'Gestionnaire'
             };
             return roles[roleCode] || 'Employé';
         }
@@ -987,152 +2453,97 @@
             return name.split(' ').map(n => n[0]).join('').toUpperCase();
         }
 
-        // Chargement des données
-        function loadDashboardData() {
-            // Mettre à jour les statistiques
-            document.getElementById('vehiclesInProgress').textContent = 
-                demoData.vehicles.filter(v => v.status === 'En cours').length;
-            document.getElementById('todayAppointments').textContent = 
-                demoData.appointments.filter(a => a.date.includes('28/06/2023')).length;
-            document.getElementById('urgentTasks').textContent = 3;
-            document.getElementById('todayRevenue').textContent = '$24,580';
-            
-            // Remplir les activités récentes
-            const activitiesTable = document.getElementById('recentActivities');
-            activitiesTable.innerHTML = '';
-            
-            demoData.vehicles.forEach(vehicle => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${vehicle.model}</td>
-                    <td>${vehicle.owner}</td>
-                    <td>${vehicle.work}</td>
-                    <td>${vehicle.assigned}</td>
-                    <td><span class="status status-${vehicle.status === 'Terminé' ? 'termine' : vehicle.status === 'En attente' ? 'attente' : 'en-cours'}">${vehicle.status}</span></td>
-                    <td>
-                        <button class="action-btn">Détails</button>
-                        <button class="action-btn">Modifier</button>
-                    </td>
-                `;
-                activitiesTable.appendChild(row);
-            });
+        function getStatusClass(status) {
+            const classes = {
+                'in-progress': 'status-warning',
+                'completed': 'status-success',
+                'waiting': 'status-info'
+            };
+            return classes[status] || 'status-info';
         }
 
-        function loadAppointments() {
-            const appointmentsTable = document.getElementById('appointmentsTable');
-            appointmentsTable.innerHTML = '';
-            
-            demoData.appointments.forEach(appointment => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${appointment.date}</td>
-                    <td>${appointment.client}</td>
-                    <td>${appointment.phone}</td>
-                    <td>${appointment.vehicle}</td>
-                    <td>${appointment.service}</td>
-                    <td>
-                        <button class="action-btn">Confirmer</button>
-                        <button class="action-btn">Reporter</button>
-                    </td>
-                `;
-                appointmentsTable.appendChild(row);
-            });
+        function getStatusText(status) {
+            const texts = {
+                'in-progress': 'En cours',
+                'completed': 'Terminé',
+                'waiting': 'En attente'
+            };
+            return texts[status] || status;
         }
 
-        function loadVehicles() {
-            const vehiclesTable = document.getElementById('vehiclesTable');
-            vehiclesTable.innerHTML = '';
-            
-            demoData.vehicles.forEach(vehicle => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${vehicle.model}</td>
-                    <td>${vehicle.plate}</td>
-                    <td>${vehicle.owner}</td>
-                    <td>${vehicle.work}</td>
-                    <td>${vehicle.assigned}</td>
-                    <td><span class="status status-${vehicle.status === 'Terminé' ? 'termine' : vehicle.status === 'En attente' ? 'attente' : 'en-cours'}">${vehicle.status}</span></td>
-                    <td>
-                        <button class="action-btn">Mettre à jour</button>
-                        <button class="action-btn">Facturer</button>
-                    </td>
-                `;
-                vehiclesTable.appendChild(row);
-            });
+        function getAppointmentStatusClass(status) {
+            const classes = {
+                'confirmed': 'status-success',
+                'pending': 'status-warning',
+                'cancelled': 'status-danger'
+            };
+            return classes[status] || 'status-info';
         }
 
-        function loadStock() {
-            const stockTable = document.getElementById('stockTable');
-            stockTable.innerHTML = '';
+        function getAppointmentStatusText(status) {
+            const texts = {
+                'confirmed': 'Confirmé',
+                'pending': 'En attente',
+                'cancelled': 'Annulé'
+            };
+            return texts[status] || status;
+        }
+
+        function getVehicleStatusClass(status) {
+            const classes = {
+                'in-progress': 'status-warning',
+                'completed': 'status-success',
+                'waiting': 'status-info'
+            };
+            return classes[status] || 'status-info';
+        }
+
+        function getVehicleStatusText(status) {
+            const texts = {
+                'in-progress': 'En cours',
+                'completed': 'Terminé',
+                'waiting': 'En attente'
+            };
+            return texts[status] || status;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR');
+        }
+
+        // Système de notifications
+        function showNotification(title, message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
             
-            demoData.stock.forEach(item => {
-                const row = document.createElement('tr');
-                const quantity = parseInt(item.quantity);
-                const alert = parseInt(item.alert);
-                const lowStock = quantity <= alert;
+            // Mettre à jour le contenu
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            
+            // Mettre à jour la couleur selon le type
+            const icon = toast.querySelector('.notification-icon');
+            icon.style.background = type === 'error' 
+                ? 'rgba(255, 58, 58, 0.2)' 
+                : type === 'success'
+                ? 'rgba(0, 212, 170, 0.2)'
+                : 'rgba(255, 204, 0, 0.2)';
                 
-                row.innerHTML = `
-                    <td>${item.ref}</td>
-                    <td>${item.name}</td>
-                    <td>${item.type}</td>
-                    <td style="${lowStock ? 'color: #e63946; font-weight: bold;' : ''}">${item.quantity} ${lowStock ? '⏳' : ''}</td>
-                    <td>${item.alert}</td>
-                    <td>${item.price}</td>
-                    <td>
-                        <button class="action-btn">Commander</button>
-                        <button class="action-btn">Modifier</button>
-                    </td>
-                `;
-                stockTable.appendChild(row);
-            });
-        }
-
-        function loadEmployees() {
-            const employeesTable = document.getElementById('employeesTable');
-            employeesTable.innerHTML = '';
+            icon.style.color = type === 'error' 
+                ? '#ff3a3a' 
+                : type === 'success'
+                ? '#00d4aa'
+                : '#ffcc00';
             
-            demoData.employees.forEach(employee => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${employee.id}</td>
-                    <td>${employee.name}</td>
-                    <td>${employee.role}</td>
-                    <td>${employee.phone}</td>
-                    <td>${employee.available}</td>
-                    <td>${employee.salary}</td>
-                    <td>
-                        <button class="action-btn">Contacter</button>
-                        <button class="action-btn">Modifier</button>
-                    </td>
-                `;
-                employeesTable.appendChild(row);
-            });
+            // Afficher la notification
+            toast.classList.add('show');
+            
+            // Masquer automatiquement après 5 secondes
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
         }
-
-        // Gestion des boutons d'ajout
-        document.getElementById('addAppointmentBtn').addEventListener('click', function() {
-            alert('Fonctionnalité d\'ajout de rendez-vous - À implémenter');
-        });
-
-        document.getElementById('addVehicleBtn').addEventListener('click', function() {
-            alert('Fonctionnalité d\'ajout de véhicule - À implémenter');
-        });
-
-        document.getElementById('addPartBtn').addEventListener('click', function() {
-            alert('Fonctionnalité d\'ajout de pièce - À implémenter');
-        });
-
-        document.getElementById('addEmployeeBtn').addEventListener('click', function() {
-            alert('Fonctionnalité d\'ajout d\'employé - À implémenter');
-        });
-
-        // Simuler une connexion par défaut pour la démonstration
-        window.addEventListener('DOMContentLoaded', function() {
-            // Pour la démonstration, pré-remplir le formulaire
-            document.getElementById('employeeId').value = 'BNY-001';
-            document.getElementById('password').value = 'password';
-            document.getElementById('role').value = 'mecanicien';
-        });
     </script>
 </body>
 </html>
