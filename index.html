@@ -222,62 +222,6 @@
             transform: translateY(-1px);
         }
 
-        .login-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-
-        .login-btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(30, 30);
-                opacity: 0;
-            }
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 2.5rem;
-            color: var(--gray);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--glass-border);
-            padding-top: 1.5rem;
-        }
-
-        .server-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1rem;
-        }
-
-        .server-info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .server-info-item i {
-            color: var(--accent);
-        }
-
         /* Dashboard */
         .dashboard {
             display: none;
@@ -1250,28 +1194,6 @@
             animation: slideInLeft 0.5s ease-out;
         }
 
-        /* Loading */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 3rem;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--glass-border);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         /* Notification */
         .notification-toast {
             position: fixed;
@@ -1317,6 +1239,133 @@
         .notification-content p {
             font-size: 0.9rem;
             color: var(--gray);
+        }
+
+        /* Badge Counts */
+        .badge-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0 0.5rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Form Elements */
+        .form-select {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Filter Tags */
+        .filter-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -1501,46 +1550,172 @@
         <main class="main-content" id="mainContent">
             <!-- Dashboard Page -->
             <div class="page active" id="dashboard-page">
+                <!-- Contenu déjà existant -->
+            </div>
+            
+            <!-- Rendez-vous Page -->
+            <div class="page" id="rdv-page">
+                <!-- Contenu déjà existant -->
+            </div>
+            
+            <!-- Véhicules Page -->
+            <div class="page" id="vehicules-page">
+                <!-- Contenu déjà existant -->
+            </div>
+            
+            <!-- Stock & Pièces Page -->
+            <div class="page" id="stock-page">
                 <div class="page-header">
-                    <h2 class="page-title">Tableau de bord</h2>
+                    <h2 class="page-title">Gestion du stock</h2>
                     <div class="page-actions">
-                        <button class="action-btn" id="quickAddAppointment">
+                        <button class="action-btn btn-primary" id="newStockItemBtn">
                             <i class="fas fa-plus"></i>
-                            Nouveau RDV
+                            Nouvelle pièce
                         </button>
-                        <button class="action-btn btn-primary" id="quickAddVehicle">
-                            <i class="fas fa-car"></i>
-                            Ajouter véhicule
+                        <button class="action-btn" id="importStock">
+                            <i class="fas fa-upload"></i>
+                            Importer
                         </button>
-                        <button class="action-btn" id="generateReport">
-                            <i class="fas fa-file-export"></i>
-                            Générer rapport
+                        <button class="action-btn" id="exportStock">
+                            <i class="fas fa-download"></i>
+                            Exporter
                         </button>
                     </div>
                 </div>
                 
-                <!-- Stats -->
+                <!-- Stock Stats -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-header">
-                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
-                                <i class="fas fa-wrench"></i>
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                                <i class="fas fa-box-open"></i>
                             </div>
                             <div class="stat-change positive">
                                 <i class="fas fa-arrow-up"></i>
-                                12%
+                                8%
                             </div>
                         </div>
                         <div class="stat-body">
-                            <h3 id="vehiclesInProgress">12</h3>
-                            <p>Véhicules en cours</p>
+                            <h3 id="totalStockItems">156</h3>
+                            <p>Pièces en stock</p>
                         </div>
                     </div>
                     
                     <div class="stat-card">
                         <div class="stat-header">
-                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-up"></i>
+                                3%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="lowStockItems">12</h3>
+                            <p>Pièces en rupture</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4d8af0, #6ba3ff);">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-down"></i>
+                                5%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="pendingOrders">8</h3>
+                            <p>Commandes en cours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ffcc00, #ffdd44);">
                                 <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                15%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="stockValue">$124,850</h3>
+                            <p>Valeur du stock</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stock Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Inventaire des pièces</h3>
+                        <div class="table-actions">
+                            <div class="table-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="stockSearch" placeholder="Rechercher une pièce...">
+                            </div>
+                            <div class="filter-tags" id="stockFilters">
+                                <span class="filter-tag active" data-filter="all">Toutes</span>
+                                <span class="filter-tag" data-filter="low">Rupture</span>
+                                <span class="filter-tag" data-filter="medium">Stock moyen</span>
+                                <span class="filter-tag" data-filter="high">Stock élevé</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Nom</th>
+                                    <th>Catégorie</th>
+                                    <th>Quantité</th>
+                                    <th>Seuil min</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Valeur</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockTable">
+                                <!-- Rempli par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Finances Page -->
+            <div class="page" id="finances-page">
+                <div class="page-header">
+                    <h2 class="page-title">Gestion financière</h2>
+                    <div class="page-actions">
+                        <button class="action-btn btn-primary" id="newTransactionBtn">
+                            <i class="fas fa-plus"></i>
+                            Nouvelle transaction
+                        </button>
+                        <button class="action-btn" id="generateFinancialReport">
+                            <i class="fas fa-file-export"></i>
+                            Rapport financier
+                        </button>
+                        <button class="action-btn" id="viewInvoices">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            Factures
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Financial Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                                <i class="fas fa-money-bill-wave"></i>
                             </div>
                             <div class="stat-change positive">
                                 <i class="fas fa-arrow-up"></i>
@@ -1549,26 +1724,148 @@
                         </div>
                         <div class="stat-body">
                             <h3 id="todayRevenue">$24,580</h3>
-                            <p>Chiffre d'affaires du jour</p>
+                            <p>Revenu du jour</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-up"></i>
+                                12%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="todayExpenses">$8,450</h3>
+                            <p>Dépenses du jour</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4d8af0, #6ba3ff);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                18%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="monthlyProfit">$156,230</h3>
+                            <p>Profit mensuel</p>
                         </div>
                     </div>
                     
                     <div class="stat-card">
                         <div class="stat-header">
                             <div class="stat-icon" style="background: linear-gradient(135deg, #ffcc00, #ffdd44);">
-                                <i class="fas fa-calendar-check"></i>
+                                <i class="fas fa-piggy-bank"></i>
                             </div>
-                            <div class="stat-change negative">
-                                <i class="fas fa-arrow-down"></i>
-                                3%
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                6%
                             </div>
                         </div>
                         <div class="stat-body">
-                            <h3 id="todayAppointments">8</h3>
-                            <p>Rendez-vous aujourd'hui</p>
+                            <h3 id="totalBalance">$842,150</h3>
+                            <p>Solde total</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Financial Charts -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Revenus vs Dépenses (30 jours)</h3>
+                            <div class="chart-actions">
+                                <button class="chart-btn active">30j</button>
+                                <button class="chart-btn">90j</button>
+                                <button class="chart-btn">1an</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="financialChart"></canvas>
                         </div>
                     </div>
                     
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Répartition des revenus</h3>
+                            <div class="chart-actions">
+                                <button class="chart-btn active"><i class="fas fa-chart-pie"></i></button>
+                                <button class="chart-btn"><i class="fas fa-chart-bar"></i></button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Transactions -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Transactions récentes</h3>
+                        <div class="table-actions">
+                            <div class="table-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="transactionSearch" placeholder="Rechercher...">
+                            </div>
+                            <div class="filter-tags" id="transactionFilters">
+                                <span class="filter-tag active" data-filter="all">Toutes</span>
+                                <span class="filter-tag" data-filter="income">Revenus</span>
+                                <span class="filter-tag" data-filter="expense">Dépenses</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Montant</th>
+                                    <th>Méthode</th>
+                                    <th>Client/Fournisseur</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTable">
+                                <!-- Rempli par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Employés Page -->
+            <div class="page" id="employes-page">
+                <div class="page-header">
+                    <h2 class="page-title">Gestion des employés</h2>
+                    <div class="page-actions">
+                        <button class="action-btn btn-primary" id="newEmployeeBtn">
+                            <i class="fas fa-user-plus"></i>
+                            Nouvel employé
+                        </button>
+                        <button class="action-btn" id="scheduleBtn">
+                            <i class="fas fa-calendar-alt"></i>
+                            Planning
+                        </button>
+                        <button class="action-btn" id="payrollBtn">
+                            <i class="fas fa-money-check-alt"></i>
+                            Paies
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Employee Stats -->
+                <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-header">
                             <div class="stat-icon" style="background: linear-gradient(135deg, #4d8af0, #6ba3ff);">
@@ -1580,70 +1877,93 @@
                             </div>
                         </div>
                         <div class="stat-body">
-                            <h3 id="employeeCount">14</h3>
-                            <p>Employés actifs</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Charts -->
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>Activité de l'atelier (7 jours)</h3>
-                            <div class="chart-actions">
-                                <button class="chart-btn active">7j</button>
-                                <button class="chart-btn">30j</button>
-                                <button class="chart-btn">90j</button>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="activityChart"></canvas>
+                            <h3 id="totalEmployees">14</h3>
+                            <p>Employés totaux</p>
                         </div>
                     </div>
                     
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>Répartition des services</h3>
-                            <div class="chart-actions">
-                                <button class="chart-btn active"><i class="fas fa-chart-pie"></i></button>
-                                <button class="chart-btn"><i class="fas fa-chart-bar"></i></button>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                3%
                             </div>
                         </div>
-                        <div class="chart-container">
-                            <canvas id="servicesChart"></canvas>
+                        <div class="stat-body">
+                            <h3 id="activeEmployees">12</h3>
+                            <p>Employés actifs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ffcc00, #ffdd44);">
+                                <i class="fas fa-user-clock"></i>
+                            </div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                2%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="onLeave">2</h3>
+                            <p>En congé</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
+                                <i class="fas fa-user-slash"></i>
+                            </div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-up"></i>
+                                1%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="inactiveEmployees">1</h3>
+                            <p>Inactifs</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Recent Activities -->
+                <!-- Employees Table -->
                 <div class="table-card">
                     <div class="table-header">
-                        <h3>Activités récentes</h3>
+                        <h3>Liste des employés</h3>
                         <div class="table-actions">
                             <div class="table-search">
                                 <i class="fas fa-search"></i>
-                                <input type="text" placeholder="Rechercher...">
+                                <input type="text" id="employeeSearch" placeholder="Rechercher un employé...">
                             </div>
-                            <button class="action-btn">
-                                <i class="fas fa-filter"></i>
-                                Filtrer
-                            </button>
+                            <div class="filter-tags" id="employeeFilters">
+                                <span class="filter-tag active" data-filter="all">Tous</span>
+                                <span class="filter-tag" data-filter="active">Actifs</span>
+                                <span class="filter-tag" data-filter="inactive">Inactifs</span>
+                                <span class="filter-tag" data-filter="leave">Congé</span>
+                            </div>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Véhicule</th>
-                                    <th>Client</th>
-                                    <th>Service</th>
-                                    <th>Employé</th>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Rôle</th>
+                                    <th>Téléphone</th>
+                                    <th>Disponibilité</th>
+                                    <th>Salaire</th>
+                                    <th>Heures/sem.</th>
                                     <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="recentActivitiesTable">
+                            <tbody id="employeesTable">
                                 <!-- Rempli par JavaScript -->
                             </tbody>
                         </table>
@@ -1651,52 +1971,107 @@
                 </div>
             </div>
             
-            <!-- Rendez-vous Page -->
-            <div class="page" id="rdv-page">
+            <!-- Clients Page -->
+            <div class="page" id="clients-page">
                 <div class="page-header">
-                    <h2 class="page-title">Gestion des rendez-vous</h2>
+                    <h2 class="page-title">Gestion des clients</h2>
                     <div class="page-actions">
-                        <button class="action-btn btn-primary" id="newAppointmentBtn">
-                            <i class="fas fa-plus"></i>
-                            Nouveau RDV
+                        <button class="action-btn btn-primary" id="newClientBtn">
+                            <i class="fas fa-user-plus"></i>
+                            Nouveau client
                         </button>
-                        <button class="action-btn" id="importAppointments">
+                        <button class="action-btn" id="importClients">
                             <i class="fas fa-upload"></i>
                             Importer
                         </button>
-                        <button class="action-btn" id="exportAppointments">
+                        <button class="action-btn" id="exportClients">
                             <i class="fas fa-download"></i>
                             Exporter
                         </button>
                     </div>
                 </div>
                 
-                <!-- Calendar -->
-                <div class="calendar-card">
-                    <div class="calendar-header">
-                        <div class="calendar-nav">
-                            <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-                            <h3 id="currentMonth">Juillet 2023</h3>
-                            <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                <!-- Client Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4d8af0, #6ba3ff);">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                12%
+                            </div>
                         </div>
-                        <button class="action-btn" id="todayBtn">
-                            <i class="fas fa-calendar-day"></i>
-                            Aujourd'hui
-                        </button>
+                        <div class="stat-body">
+                            <h3 id="totalClients">248</h3>
+                            <p>Clients totaux</p>
+                        </div>
                     </div>
-                    <div class="calendar-grid" id="calendarGrid">
-                        <!-- Rempli par JavaScript -->
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                8%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="activeClients">186</h3>
+                            <p>Clients actifs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ffcc00, #ffdd44);">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                5%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="vipClients">42</h3>
+                            <p>Clients VIP</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
+                                <i class="fas fa-user-slash"></i>
+                            </div>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                3%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="inactiveClients">62</h3>
+                            <p>Clients inactifs</p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Appointments Table -->
+                <!-- Clients Table -->
                 <div class="table-card">
                     <div class="table-header">
-                        <h3>Rendez-vous du jour</h3>
+                        <h3>Liste des clients</h3>
                         <div class="table-actions">
                             <div class="table-search">
                                 <i class="fas fa-search"></i>
-                                <input type="text" placeholder="Rechercher un RDV...">
+                                <input type="text" id="clientSearch" placeholder="Rechercher un client...">
+                            </div>
+                            <div class="filter-tags" id="clientFilters">
+                                <span class="filter-tag active" data-filter="all">Tous</span>
+                                <span class="filter-tag" data-filter="active">Actifs</span>
+                                <span class="filter-tag" data-filter="vip">VIP</span>
+                                <span class="filter-tag" data-filter="inactive">Inactifs</span>
                             </div>
                         </div>
                     </div>
@@ -1704,16 +2079,18 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Heure</th>
-                                    <th>Client</th>
+                                    <th>ID</th>
+                                    <th>Nom</th>
                                     <th>Téléphone</th>
-                                    <th>Véhicule</th>
-                                    <th>Service</th>
+                                    <th>Email</th>
+                                    <th>Véhicules</th>
+                                    <th>Dépenses totales</th>
+                                    <th>Dernière visite</th>
                                     <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="appointmentsTable">
+                            <tbody id="clientsTable">
                                 <!-- Rempli par JavaScript -->
                             </tbody>
                         </table>
@@ -1721,40 +2098,107 @@
                 </div>
             </div>
             
-            <!-- Véhicules Page -->
-            <div class="page" id="vehicules-page">
+            <!-- Documents Page -->
+            <div class="page" id="documents-page">
                 <div class="page-header">
-                    <h2 class="page-title">Gestion des véhicules</h2>
+                    <h2 class="page-title">Documents internes</h2>
                     <div class="page-actions">
-                        <button class="action-btn btn-primary" id="newVehicleBtn">
-                            <i class="fas fa-plus"></i>
-                            Nouveau véhicule
+                        <button class="action-btn btn-primary" id="uploadDocumentBtn">
+                            <i class="fas fa-upload"></i>
+                            Uploader document
                         </button>
-                        <button class="action-btn" id="vehicleFilterBtn">
-                            <i class="fas fa-filter"></i>
-                            Filtrer
+                        <button class="action-btn" id="createFolderBtn">
+                            <i class="fas fa-folder-plus"></i>
+                            Nouveau dossier
                         </button>
-                        <button class="action-btn" id="vehicleStatsBtn">
-                            <i class="fas fa-chart-bar"></i>
-                            Statistiques
+                        <button class="action-btn" id="shareDocumentBtn">
+                            <i class="fas fa-share-alt"></i>
+                            Partager
                         </button>
                     </div>
                 </div>
                 
-                <!-- Vehicles Table -->
+                <!-- Documents Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4d8af0, #6ba3ff);">
+                                <i class="fas fa-file"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                15%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="totalDocuments">342</h3>
+                            <p>Documents totaux</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #00d4aa, #00ffcc);">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                8%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="totalFolders">24</h3>
+                            <p>Dossiers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ffcc00, #ffdd44);">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                12%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="pdfDocuments">156</h3>
+                            <p>Documents PDF</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff3a3a, #ff6b6b);">
+                                <i class="fas fa-file-excel"></i>
+                            </div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                6%
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <h3 id="excelDocuments">84</h3>
+                            <p>Documents Excel</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Documents Table -->
                 <div class="table-card">
                     <div class="table-header">
-                        <h3>Véhicules à l'atelier</h3>
+                        <h3>Documents récents</h3>
                         <div class="table-actions">
                             <div class="table-search">
                                 <i class="fas fa-search"></i>
-                                <input type="text" placeholder="Rechercher un véhicule...">
+                                <input type="text" id="documentSearch" placeholder="Rechercher un document...">
                             </div>
-                            <div class="filter-tags" id="vehicleFilters">
-                                <span class="status-badge status-info">Tous: 12</span>
-                                <span class="status-badge status-warning">En cours: 8</span>
-                                <span class="status-badge status-success">Terminés: 3</span>
-                                <span class="status-badge status-danger">Urgent: 1</span>
+                            <div class="filter-tags" id="documentFilters">
+                                <span class="filter-tag active" data-filter="all">Tous</span>
+                                <span class="filter-tag" data-filter="pdf">PDF</span>
+                                <span class="filter-tag" data-filter="excel">Excel</span>
+                                <span class="filter-tag" data-filter="word">Word</span>
                             </div>
                         </div>
                     </div>
@@ -1762,17 +2206,16 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Véhicule</th>
-                                    <th>Immatriculation</th>
-                                    <th>Client</th>
-                                    <th>Travaux</th>
-                                    <th>Employé</th>
-                                    <th>Date entrée</th>
-                                    <th>Statut</th>
+                                    <th>Nom</th>
+                                    <th>Type</th>
+                                    <th>Taille</th>
+                                    <th>Dossier</th>
+                                    <th>Modifié le</th>
+                                    <th>Modifié par</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="vehiclesTable">
+                            <tbody id="documentsTable">
                                 <!-- Rempli par JavaScript -->
                             </tbody>
                         </table>
@@ -1780,82 +2223,355 @@
                 </div>
             </div>
             
-            <!-- Pages suivantes seraient similaires -->
-            
+            <!-- Paramètres Page -->
+            <div class="page" id="parametres-page">
+                <div class="page-header">
+                    <h2 class="page-title">Paramètres</h2>
+                    <div class="page-actions">
+                        <button class="action-btn btn-primary" id="saveSettingsBtn">
+                            <i class="fas fa-save"></i>
+                            Sauvegarder
+                        </button>
+                        <button class="action-btn" id="resetSettingsBtn">
+                            <i class="fas fa-undo"></i>
+                            Réinitialiser
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Settings Tabs -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="filter-tags" id="settingsTabs">
+                            <span class="filter-tag active" data-tab="general">Général</span>
+                            <span class="filter-tag" data-tab="atelier">Atelier</span>
+                            <span class="filter-tag" data-tab="notifications">Notifications</span>
+                            <span class="filter-tag" data-tab="security">Sécurité</span>
+                            <span class="filter-tag" data-tab="users">Utilisateurs</span>
+                        </div>
+                    </div>
+                    
+                    <!-- General Settings -->
+                    <div class="settings-tab active" id="general-tab">
+                        <div style="padding: 1.5rem;">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="companyName" class="form-label">Nom de l'entreprise</label>
+                                    <input type="text" id="companyName" class="form-input" value="Benny's Original Motor Works">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="serverName" class="form-label">Nom du serveur</label>
+                                    <input type="text" id="serverName" class="form-input" value="Fantastic FiveM">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="timezone" class="form-label">Fuseau horaire</label>
+                                    <select id="timezone" class="form-input">
+                                        <option value="Europe/Paris" selected>Europe/Paris</option>
+                                        <option value="America/New_York">America/New_York</option>
+                                        <option value="UTC">UTC</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="language" class="form-label">Langue</label>
+                                    <select id="language" class="form-input">
+                                        <option value="fr" selected>Français</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="currency" class="form-label">Devise</label>
+                                    <select id="currency" class="form-input">
+                                        <option value="$" selected>Dollar ($)</option>
+                                        <option value="€">Euro (€)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="dateFormat" class="form-label">Format de date</label>
+                                    <select id="dateFormat" class="form-input">
+                                        <option value="dd/mm/yyyy" selected>JJ/MM/AAAA</option>
+                                        <option value="mm/dd/yyyy">MM/JJ/AAAA</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="companyAddress" class="form-label">Adresse de l'atelier</label>
+                                <textarea id="companyAddress" class="form-textarea">Rue des Mécaniciens, 123 - Los Santos</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Workshop Settings -->
+                    <div class="settings-tab" id="atelier-tab">
+                        <div style="padding: 1.5rem;">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="workHoursStart" class="form-label">Heure d'ouverture</label>
+                                    <input type="time" id="workHoursStart" class="form-input" value="08:00">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="workHoursEnd" class="form-label">Heure de fermeture</label>
+                                    <input type="time" id="workHoursEnd" class="form-input" value="20:00">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="maxVehicles" class="form-label">Véhicules max simultanés</label>
+                                    <input type="number" id="maxVehicles" class="form-input" value="15" min="1" max="50">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="appointmentDuration" class="form-label">Durée RDV (minutes)</label>
+                                    <input type="number" id="appointmentDuration" class="form-input" value="60" min="15" max="240">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="taxRate" class="form-label">Taux de taxe (%)</label>
+                                    <input type="number" id="taxRate" class="form-input" value="20" min="0" max="100" step="0.1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="vatIncluded" class="form-label">TVA incluse</label>
+                                    <select id="vatIncluded" class="form-input">
+                                        <option value="yes" selected>Oui</option>
+                                        <option value="no">Non</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Jours d'ouverture</label>
+                                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" checked> Lun
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" checked> Mar
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" checked> Mer
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" checked> Jeu
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" checked> Ven
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" checked> Sam
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox"> Dim
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications Settings -->
+                    <div class="settings-tab" id="notifications-tab">
+                        <div style="padding: 1.5rem;">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" checked>
+                                        <span>Notifications email</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" checked>
+                                        <span>Notifications push</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" checked>
+                                        <span>Nouveaux RDV</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" checked>
+                                        <span>Véhicules terminés</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox">
+                                        <span>Stock faible</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" checked>
+                                        <span>Paiements reçus</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="notificationEmail" class="form-label">Email de notifications</label>
+                                <input type="email" id="notificationEmail" class="form-input" value="notifications@bennys-ls.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
-    <!-- Modal Nouveau Rendez-vous -->
+    <!-- Modals -->
     <div class="modal" id="appointmentModal">
+        <!-- Contenu déjà existant -->
+    </div>
+    
+    <!-- Vehicle Modal -->
+    <div class="modal" id="vehicleModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Nouveau rendez-vous</h3>
-                <button class="modal-close" id="closeAppointmentModal">
+                <h3>Nouveau véhicule</h3>
+                <button class="modal-close" id="closeVehicleModal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="appointmentForm">
+                <form id="vehicleForm">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="appointmentClient" class="form-label">Client</label>
-                            <select id="appointmentClient" class="form-input" required>
+                            <label for="vehicleModel" class="form-label">Modèle</label>
+                            <input type="text" id="vehicleModel" class="form-input" placeholder="Ex: Karin Sultan" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehiclePlate" class="form-label">Plaque d'immatriculation</label>
+                            <input type="text" id="vehiclePlate" class="form-input" placeholder="Ex: LS-789-BNY" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleOwner" class="form-label">Propriétaire</label>
+                            <select id="vehicleOwner" class="form-input" required>
                                 <option value="">Sélectionner un client</option>
-                                <option value="1">Michael De Santa</option>
-                                <option value="2">Franklin Clinton</option>
-                                <option value="3">Trevor Philips</option>
+                                <!-- Rempli par JavaScript -->
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="appointmentVehicle" class="form-label">Véhicule</label>
-                            <input type="text" id="appointmentVehicle" class="form-input" placeholder="Modèle du véhicule" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="appointmentDate" class="form-label">Date</label>
-                            <input type="date" id="appointmentDate" class="form-input" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="appointmentTime" class="form-label">Heure</label>
-                            <input type="time" id="appointmentTime" class="form-input" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="appointmentService" class="form-label">Service</label>
-                            <select id="appointmentService" class="form-input" required>
+                            <label for="vehicleWork" class="form-label">Travaux demandés</label>
+                            <select id="vehicleWork" class="form-input" required>
                                 <option value="">Sélectionner un service</option>
                                 <option value="revision">Révision complète</option>
                                 <option value="reparation">Réparation</option>
                                 <option value="customisation">Customisation</option>
                                 <option value="peinture">Peinture</option>
+                                <option value="performance">Tuning performance</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="appointmentEmployee" class="form-label">Employé assigné</label>
-                            <select id="appointmentEmployee" class="form-input">
+                            <label for="vehiclePriority" class="form-label">Priorité</label>
+                            <select id="vehiclePriority" class="form-input" required>
+                                <option value="normal">Normale</option>
+                                <option value="high">Haute</option>
+                                <option value="urgent">Urgente</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleAssigned" class="form-label">Employé assigné</label>
+                            <select id="vehicleAssigned" class="form-input">
                                 <option value="">Auto-assigner</option>
-                                <option value="1">Jean Dupont</option>
-                                <option value="2">Marie Lambert</option>
-                                <option value="3">Ahmed Benali</option>
+                                <!-- Rempli par JavaScript -->
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="appointmentNotes" class="form-label">Notes additionnelles</label>
-                        <textarea id="appointmentNotes" class="form-input" rows="3" placeholder="Informations supplémentaires..."></textarea>
+                        <label for="vehicleNotes" class="form-label">Notes additionnelles</label>
+                        <textarea id="vehicleNotes" class="form-textarea" rows="3" placeholder="Informations supplémentaires sur le véhicule..."></textarea>
                     </div>
                     
                     <div class="form-footer">
-                        <button type="button" class="action-btn btn-secondary" id="cancelAppointment">
+                        <button type="button" class="action-btn btn-secondary" id="cancelVehicle">
                             Annuler
                         </button>
                         <button type="submit" class="action-btn btn-primary">
-                            <i class="fas fa-calendar-plus"></i>
-                            Créer le rendez-vous
+                            <i class="fas fa-car"></i>
+                            Ajouter le véhicule
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Employee Modal -->
+    <div class="modal" id="employeeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nouvel employé</h3>
+                <button class="modal-close" id="closeEmployeeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="employeeForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="employeeName" class="form-label">Nom complet</label>
+                            <input type="text" id="employeeName" class="form-input" placeholder="Ex: Jean Dupont" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employeeIdInput" class="form-label">ID Employé</label>
+                            <input type="text" id="employeeIdInput" class="form-input" placeholder="Ex: BNY-001" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employeeRole" class="form-label">Rôle</label>
+                            <select id="employeeRole" class="form-input" required>
+                                <option value="">Sélectionner un rôle</option>
+                                <option value="mecanicien">Mécanicien</option>
+                                <option value="reception">Réceptionniste</option>
+                                <option value="customiser">Customiseur</option>
+                                <option value="patron">Patron/Gérant</option>
+                                <option value="gestionnaire">Gestionnaire</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employeePhone" class="form-label">Téléphone</label>
+                            <input type="tel" id="employeePhone" class="form-input" placeholder="Ex: 555-0101" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employeeEmail" class="form-label">Email</label>
+                            <input type="email" id="employeeEmail" class="form-input" placeholder="exemple@bennys-ls.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employeeSalary" class="form-label">Salaire ($)</label>
+                            <input type="number" id="employeeSalary" class="form-input" placeholder="Ex: 3200" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="action-btn btn-secondary" id="cancelEmployee">
+                            Annuler
+                        </button>
+                        <button type="submit" class="action-btn btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Ajouter l'employé
                         </button>
                     </div>
                 </form>
@@ -1875,71 +2591,105 @@
     </div>
 
     <script>
-        // Données de démonstration étendues
-        const demoData = {
-            currentUser: {
-                id: "BNY-001",
-                name: "Jean Dupont",
-                role: "Mécanicien",
-                avatar: "JD"
-            },
+        // Données complètes de l'application
+        let appData = {
+            currentUser: null,
             
             employees: [
-                { id: "BNY-001", name: "Jean Dupont", role: "Mécanicien", phone: "555-0101", status: "active", salary: "$3,200" },
-                { id: "BNY-002", name: "Marie Lambert", role: "Réceptionniste", phone: "555-0102", status: "active", salary: "$2,800" },
-                { id: "BNY-003", name: "Ahmed Benali", role: "Customiseur", phone: "555-0103", status: "active", salary: "$3,500" },
-                { id: "BNY-004", name: "Lucas Moreau", role: "Mécanicien", phone: "555-0104", status: "inactive", salary: "$3,100" },
-                { id: "BNY-005", name: "Sophie Martin", role: "Patron/Gérant", phone: "555-0105", status: "active", salary: "$4,500" },
-                { id: "BNY-006", name: "Thomas Leroy", role: "Mécanicien", phone: "555-0106", status: "active", salary: "$3,000" },
-                { id: "BNY-007", name: "Emma Petit", role: "Réceptionniste", phone: "555-0107", status: "active", salary: "$2,700" }
+                { id: "BNY-001", name: "Jean Dupont", role: "Mécanicien", phone: "555-0101", email: "j.dupont@bennys-ls.com", status: "active", salary: 3200, hours: 40, joinDate: "2022-01-15" },
+                { id: "BNY-002", name: "Marie Lambert", role: "Réceptionniste", phone: "555-0102", email: "m.lambert@bennys-ls.com", status: "active", salary: 2800, hours: 35, joinDate: "2022-03-10" },
+                { id: "BNY-003", name: "Ahmed Benali", role: "Customiseur", phone: "555-0103", email: "a.benali@bennys-ls.com", status: "active", salary: 3500, hours: 40, joinDate: "2021-11-20" },
+                { id: "BNY-004", name: "Lucas Moreau", role: "Mécanicien", phone: "555-0104", email: "l.moreau@bennys-ls.com", status: "inactive", salary: 3100, hours: 40, joinDate: "2022-02-01" },
+                { id: "BNY-005", name: "Sophie Martin", role: "Patron/Gérant", phone: "555-0105", email: "s.martin@bennys-ls.com", status: "active", salary: 4500, hours: 45, joinDate: "2020-05-15" },
+                { id: "BNY-006", name: "Thomas Leroy", role: "Mécanicien", phone: "555-0106", email: "t.leroy@bennys-ls.com", status: "active", salary: 3000, hours: 40, joinDate: "2022-06-01" },
+                { id: "BNY-007", name: "Emma Petit", role: "Réceptionniste", phone: "555-0107", email: "e.petit@bennys-ls.com", status: "leave", salary: 2700, hours: 30, joinDate: "2022-07-15" },
+                { id: "BNY-008", name: "Kevin Durand", role: "Customiseur", phone: "555-0108", email: "k.durand@bennys-ls.com", status: "active", salary: 3400, hours: 40, joinDate: "2022-04-10" }
             ],
             
             appointments: [
-                { id: 1, date: "2023-07-28", time: "09:30", client: "Michael De Santa", phone: "555-1234", vehicle: "Obey Tailgater", service: "Révision complète", status: "confirmed", employee: "Jean Dupont" },
-                { id: 2, date: "2023-07-28", time: "11:00", client: "Franklin Clinton", phone: "555-5678", vehicle: "Bravado Banshee", service: "Customisation complète", status: "pending", employee: "Ahmed Benali" },
-                { id: 3, date: "2023-07-28", time: "14:30", client: "Trevor Philips", phone: "555-9012", vehicle: "Canis Bodhi", service: "Réparation moteur", status: "confirmed", employee: "Lucas Moreau" },
-                { id: 4, date: "2023-07-29", time: "10:00", client: "Lamar Davis", phone: "555-3456", vehicle: "Declasse Sabre Turbo", service: "Peinture métallisée", status: "pending", employee: null },
-                { id: 5, date: "2023-07-29", time: "15:00", client: "Jimmy De Santa", phone: "555-7890", vehicle: "Dinka Jester", service: "Tuning performance", status: "confirmed", employee: "Thomas Leroy" }
+                { id: 1, date: getTodayDate(), time: "09:30", client: "Michael De Santa", phone: "555-1234", vehicle: "Obey Tailgater", service: "Révision complète", status: "confirmed", employee: "Jean Dupont" },
+                { id: 2, date: getTodayDate(), time: "11:00", client: "Franklin Clinton", phone: "555-5678", vehicle: "Bravado Banshee", service: "Customisation complète", status: "pending", employee: "Ahmed Benali" },
+                { id: 3, date: getTodayDate(), time: "14:30", client: "Trevor Philips", phone: "555-9012", vehicle: "Canis Bodhi", service: "Réparation moteur", status: "confirmed", employee: "Lucas Moreau" },
+                { id: 4, date: getTomorrowDate(), time: "10:00", client: "Lamar Davis", phone: "555-3456", vehicle: "Declasse Sabre Turbo", service: "Peinture métallisée", status: "pending", employee: null },
+                { id: 5, date: getTomorrowDate(), time: "15:00", client: "Jimmy De Santa", phone: "555-7890", vehicle: "Dinka Jester", service: "Tuning performance", status: "confirmed", employee: "Thomas Leroy" },
+                { id: 6, date: getTodayDate(), time: "16:30", client: "Amanda De Santa", phone: "555-2468", vehicle: "Pfister Comet", service: "Révision", status: "pending", employee: null }
             ],
             
             vehicles: [
-                { id: 1, model: "Karin Sultan", plate: "LS-789-BNY", owner: "Michael De Santa", work: "Révision + Peinture", assigned: "Jean Dupont", status: "in-progress", entryDate: "2023-07-25", priority: "normal" },
-                { id: 2, model: "Grotti Turismo R", plate: "LS-456-TUR", owner: "Franklin Clinton", work: "Kit carrosserie + Peinture", assigned: "Ahmed Benali", status: "waiting", entryDate: "2023-07-26", priority: "high" },
-                { id: 3, model: "Vapid Dominator", plate: "LS-321-DOM", owner: "Trevor Philips", work: "Réparation transmission", assigned: "Lucas Moreau", status: "completed", entryDate: "2023-07-20", priority: "normal" },
-                { id: 4, model: "Benefactor Schafter", plate: "LS-654-SCH", owner: "Lester Crest", work: "Système audio haut de gamme", assigned: "Ahmed Benali", status: "in-progress", entryDate: "2023-07-27", priority: "urgent" },
-                { id: 5, model: "Pfister Comet", plate: "LS-987-COM", owner: "Amanda De Santa", work: "Customisation complète", assigned: "Thomas Leroy", status: "in-progress", entryDate: "2023-07-26", priority: "normal" }
+                { id: 1, model: "Karin Sultan", plate: "LS-789-BNY", owner: "Michael De Santa", work: "Révision + Peinture", assigned: "Jean Dupont", status: "in-progress", entryDate: getPastDate(3), priority: "normal", estimatedCompletion: getFutureDate(2) },
+                { id: 2, model: "Grotti Turismo R", plate: "LS-456-TUR", owner: "Franklin Clinton", work: "Kit carrosserie + Peinture", assigned: "Ahmed Benali", status: "waiting", entryDate: getPastDate(2), priority: "high", estimatedCompletion: getFutureDate(5) },
+                { id: 3, model: "Vapid Dominator", plate: "LS-321-DOM", owner: "Trevor Philips", work: "Réparation transmission", assigned: "Lucas Moreau", status: "completed", entryDate: getPastDate(7), priority: "normal", completionDate: getPastDate(1) },
+                { id: 4, model: "Benefactor Schafter", plate: "LS-654-SCH", owner: "Lester Crest", work: "Système audio haut de gamme", assigned: "Ahmed Benali", status: "in-progress", entryDate: getPastDate(1), priority: "urgent", estimatedCompletion: getFutureDate(3) },
+                { id: 5, model: "Pfister Comet", plate: "LS-987-COM", owner: "Amanda De Santa", work: "Customisation complète", assigned: "Kevin Durand", status: "in-progress", entryDate: getPastDate(2), priority: "normal", estimatedCompletion: getFutureDate(7) },
+                { id: 6, model: "Declasse Vigero", plate: "LS-135-VIG", owner: "Lamar Davis", work: "Peinture métallisée", assigned: "Thomas Leroy", status: "in-progress", entryDate: getTodayDate(), priority: "normal", estimatedCompletion: getFutureDate(4) }
             ],
             
-            recentActivities: [
-                { id: 1, vehicle: "Karin Sultan", client: "Michael De Santa", service: "Révision", employee: "Jean Dupont", status: "in-progress", time: "2h ago" },
-                { id: 2, vehicle: "Benefactor Schafter", client: "Lester Crest", service: "Audio", employee: "Ahmed Benali", status: "in-progress", time: "3h ago" },
-                { id: 3, vehicle: "Vapid Dominator", client: "Trevor Philips", service: "Transmission", employee: "Lucas Moreau", status: "completed", time: "1d ago" },
-                { id: 4, vehicle: "Pfister Comet", client: "Amanda De Santa", service: "Customisation", employee: "Thomas Leroy", status: "in-progress", time: "2d ago" }
+            stock: [
+                { id: 1, ref: "BNY-MOT-001", name: "Moteur V8", category: "Moteur", quantity: 3, minThreshold: 2, unitPrice: 4500, supplier: "LS Engine Parts", location: "A1-05" },
+                { id: 2, ref: "BNY-FRE-005", name: "Disques de frein", category: "Freinage", quantity: 12, minThreshold: 5, unitPrice: 120, supplier: "Brake Masters", location: "B2-12" },
+                { id: 3, ref: "BNY-SUS-012", name: "Kit suspension sport", category: "Suspension", quantity: 5, minThreshold: 3, unitPrice: 850, supplier: "Suspension Pro", location: "C3-08" },
+                { id: 4, ref: "BNY-PEI-023", name: "Peinture rouge métallisé", category: "Peinture", quantity: 8, minThreshold: 4, unitPrice: 65, supplier: "Paint Kings", location: "D4-15" },
+                { id: 5, ref: "BNY-ECH-008", name: "Échappement sport", category: "Performance", quantity: 6, minThreshold: 3, unitPrice: 320, supplier: "Exhaust Systems", location: "E5-20" },
+                { id: 6, ref: "BNY-INT-015", name: "Sièges sport", category: "Intérieur", quantity: 4, minThreshold: 2, unitPrice: 780, supplier: "Interior Design", location: "F6-09" }
             ],
             
-            statistics: {
-                weeklyActivity: [65, 59, 80, 81, 56, 55, 40],
-                servicesDistribution: [30, 25, 20, 15, 10]
+            clients: [
+                { id: "CL-001", name: "Michael De Santa", phone: "555-1234", email: "michael@ls.com", vehicles: ["Obey Tailgater", "Enus Stafford"], totalSpent: 24500, lastVisit: getPastDate(5), status: "vip", notes: "Client fidèle, préfère Jean" },
+                { id: "CL-002", name: "Franklin Clinton", phone: "555-5678", email: "franklin@ls.com", vehicles: ["Bravado Banshee", "Declasse Granger"], totalSpent: 18700, lastVisit: getPastDate(2), status: "active", notes: "Aime les customisations" },
+                { id: "CL-003", name: "Trevor Philips", phone: "555-9012", email: "trevor@ls.com", vehicles: ["Canis Bodhi", "Vapid Dominator"], totalSpent: 15600, lastVisit: getPastDate(1), status: "active", notes: "Exigeant, priorité urgente" },
+                { id: "CL-004", name: "Lamar Davis", phone: "555-3456", email: "lamar@ls.com", vehicles: ["Declasse Sabre Turbo", "Declasse Vigero"], totalSpent: 8900, lastVisit: getTodayDate(), status: "active", notes: "Paiement parfois en retard" },
+                { id: "CL-005", name: "Jimmy De Santa", phone: "555-7890", email: "jimmy@ls.com", vehicles: ["Dinka Jester", "Dinka Blista"], totalSpent: 12400, lastVisit: getPastDate(10), status: "active", notes: "Jeune client, paiement cash" }
+            ],
+            
+            finances: {
+                transactions: [
+                    { id: 1, date: getTodayDate(), description: "Révision Obey Tailgater", type: "income", amount: 1250, method: "cash", client: "Michael De Santa" },
+                    { id: 2, date: getTodayDate(), description: "Peinture Bravado Banshee", type: "income", amount: 3200, method: "card", client: "Franklin Clinton" },
+                    { id: 3, date: getTodayDate(), description: "Achat pièces moteur", type: "expense", amount: 850, method: "transfer", supplier: "LS Engine Parts" },
+                    { id: 4, date: getPastDate(1), description: "Réparation transmission", type: "income", amount: 2100, method: "cash", client: "Trevor Philips" },
+                    { id: 5, date: getPastDate(1), description: "Salaire employés", type: "expense", amount: 15600, method: "transfer", supplier: "Paie Benny's" }
+                ],
+                monthlyRevenue: [24500, 28700, 31200, 29800, 32400, 35600, 31200, 29800, 34500, 36700, 38900, 41200],
+                monthlyExpenses: [18700, 19500, 20100, 18900, 21400, 22600, 20100, 19800, 22300, 23500, 24800, 25600]
+            },
+            
+            documents: [
+                { id: 1, name: "Procédures de sécurité", type: "pdf", size: "2.4 MB", folder: "Sécurité", modified: getPastDate(15), modifiedBy: "Sophie Martin" },
+                { id: 2, name: "Tarifs des services", type: "excel", size: "1.1 MB", folder: "Finances", modified: getPastDate(8), modifiedBy: "Marie Lambert" },
+                { id: 3, name: "Contrat type client", type: "word", size: "3.2 MB", folder: "Clients", modified: getPastDate(20), modifiedBy: "Sophie Martin" },
+                { id: 4, name: "Liste des fournisseurs", type: "pdf", size: "850 KB", folder: "Achats", modified: getPastDate(25), modifiedBy: "Jean Dupont" },
+                { id: 5, name: "Planning employés juillet", type: "excel", size: "980 KB", folder: "Ressources Humaines", modified: getPastDate(5), modifiedBy: "Emma Petit" }
+            ],
+            
+            settings: {
+                companyName: "Benny's Original Motor Works",
+                serverName: "Fantastic FiveM",
+                timezone: "Europe/Paris",
+                language: "fr",
+                currency: "$",
+                dateFormat: "dd/mm/yyyy",
+                workHoursStart: "08:00",
+                workHoursEnd: "20:00",
+                maxVehicles: 15,
+                appointmentDuration: 60,
+                taxRate: 20,
+                vatIncluded: "yes",
+                notificationEmail: "notifications@bennys-ls.com"
             }
         };
 
-        // État de l'application
-        const appState = {
-            currentPage: 'dashboard-page',
-            calendarDate: new Date(),
-            notifications: [
-                { id: 1, title: "Nouveau rendez-vous", message: "Michael De Santa à 9h30", time: "10 min", read: false },
-                { id: 2, title: "Stock faible", message: "Peinture rouge en rupture", time: "1h", read: false },
-                { id: 3, title: "Véhicule terminé", message: "Vapid Dominator prêt", time: "2h", read: false }
-            ]
-        };
+        // Variables globales
+        let activityChart, servicesChart, financialChart, revenueChart;
+        let currentStockFilter = 'all';
+        let currentEmployeeFilter = 'all';
+        let currentClientFilter = 'all';
+        let currentTransactionFilter = 'all';
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             initLogin();
             initDashboard();
-            initCharts();
-            loadDemoData();
+            loadAllData();
             setupEventListeners();
             
             // Pré-remplir le formulaire de login pour la démo
@@ -1970,24 +2720,33 @@
                 const role = document.getElementById('role').value;
                 
                 if (employeeId && password && role) {
-                    // Simulation de vérification
-                    const employee = demoData.employees.find(emp => emp.id === employeeId);
+                    // Trouver l'employé correspondant
+                    const employee = appData.employees.find(emp => emp.id === employeeId);
                     
                     if (employee || employeeId === 'BNY-001') {
                         const name = employee ? employee.name : "Jean Dupont";
                         const avatar = getInitials(name);
+                        const roleName = getRoleName(role);
+                        
+                        // Stocker l'utilisateur courant
+                        appData.currentUser = {
+                            id: employeeId,
+                            name: name,
+                            role: role,
+                            avatar: avatar
+                        };
                         
                         // Mettre à jour l'interface
                         document.getElementById('userName').textContent = name;
-                        document.getElementById('userRole').textContent = getRoleName(role);
+                        document.getElementById('userRole').textContent = roleName;
                         document.getElementById('userAvatar').textContent = avatar;
                         
                         // Afficher le dashboard
                         document.getElementById('loginScreen').style.display = 'none';
                         document.getElementById('dashboard').style.display = 'block';
                         
-                        // Charger les données
-                        loadDashboardData();
+                        // Charger toutes les données
+                        loadAllData();
                         showNotification('Connexion réussie', `Bienvenue ${name} !`);
                     } else {
                         showNotification('Erreur de connexion', 'Identifiants incorrects', 'error');
@@ -2023,6 +2782,7 @@
                 document.getElementById('dashboard').style.display = 'none';
                 document.getElementById('loginScreen').style.display = 'flex';
                 document.getElementById('loginForm').reset();
+                appData.currentUser = null;
                 showNotification('Déconnexion', 'Vous avez été déconnecté avec succès');
             });
             
@@ -2047,164 +2807,247 @@
                     // Afficher la page correspondante
                     const pageId = this.getAttribute('data-page');
                     document.getElementById(pageId).classList.add('active');
-                    appState.currentPage = pageId;
                     
                     // Fermer le sidebar sur mobile
                     if (window.innerWidth <= 1200) {
-                        document.getElementById('sidebar').classList.remove('active');
+                        document.getElementById('sidebar').classner.remove('active');
                     }
                 });
             });
         }
 
+        // Chargement de toutes les données
+        function loadAllData() {
+            updateDashboard();
+            initCharts();
+            loadAppointments();
+            loadVehicles();
+            loadStock();
+            loadFinances();
+            loadEmployees();
+            loadClients();
+            loadDocuments();
+            loadSettings();
+        }
+
+        // Mise à jour du tableau de bord
+        function updateDashboard() {
+            // Mettre à jour les statistiques
+            const today = getTodayDate();
+            const todayAppointments = appData.appointments.filter(a => a.date === today).length;
+            const inProgressVehicles = appData.vehicles.filter(v => v.status === 'in-progress').length;
+            const activeEmployees = appData.employees.filter(e => e.status === 'active').length;
+            
+            // Mettre à jour les compteurs
+            document.getElementById('todayAppointments').textContent = todayAppointments;
+            document.getElementById('vehiclesInProgress').textContent = inProgressVehicles;
+            document.getElementById('employeeCount').textContent = activeEmployees;
+            
+            // Mettre à jour les badges dans la sidebar
+            updateNavBadges();
+        }
+
         // Initialisation des graphiques
         function initCharts() {
             // Activity Chart
-            const activityCtx = document.getElementById('activityChart').getContext('2d');
-            const activityChart = new Chart(activityCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-                    datasets: [{
-                        label: 'Véhicules traités',
-                        data: demoData.statistics.weeklyActivity,
-                        borderColor: '#ff3a3a',
-                        backgroundColor: 'rgba(255, 58, 58, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+            const activityCtx = document.getElementById('activityChart')?.getContext('2d');
+            if (activityCtx) {
+                activityChart = new Chart(activityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+                        datasets: [{
+                            label: 'Revenus',
+                            data: appData.finances.monthlyRevenue,
+                            borderColor: '#00d4aa',
+                            backgroundColor: 'rgba(0, 212, 170, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }, {
+                            label: 'Dépenses',
+                            data: appData.finances.monthlyExpenses,
+                            borderColor: '#ff3a3a',
+                            backgroundColor: 'rgba(255, 58, 58, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#8a8db9'
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#f0f2ff'
+                                }
                             }
                         },
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#8a8db9',
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
                             },
-                            ticks: {
-                                color: '#8a8db9'
+                            x: {
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#8a8db9'
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
             
             // Services Chart
-            const servicesCtx = document.getElementById('servicesChart').getContext('2d');
-            const servicesChart = new Chart(servicesCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Révisions', 'Réparations', 'Customisation', 'Peinture', 'Performance'],
-                    datasets: [{
-                        data: demoData.statistics.servicesDistribution,
-                        backgroundColor: [
-                            '#ff3a3a',
-                            '#00d4aa',
-                            '#ffcc00',
-                            '#4d8af0',
-                            '#8a8db9'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#f0f2ff',
-                                padding: 20
+            const servicesCtx = document.getElementById('servicesChart')?.getContext('2d');
+            if (servicesCtx) {
+                servicesChart = new Chart(servicesCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Révisions', 'Réparations', 'Customisation', 'Peinture', 'Performance'],
+                        datasets: [{
+                            data: [30, 25, 20, 15, 10],
+                            backgroundColor: [
+                                '#ff3a3a',
+                                '#00d4aa',
+                                '#ffcc00',
+                                '#4d8af0',
+                                '#8a8db9'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#f0f2ff',
+                                    padding: 20
+                                }
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            }
+            
+            // Financial Chart
+            const financialCtx = document.getElementById('financialChart')?.getContext('2d');
+            if (financialCtx) {
+                financialChart = new Chart(financialCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                        datasets: [{
+                            label: 'Revenus',
+                            data: [24500, 28700, 31200, 29800],
+                            backgroundColor: 'rgba(0, 212, 170, 0.8)',
+                            borderColor: '#00d4aa',
+                            borderWidth: 1
+                        }, {
+                            label: 'Dépenses',
+                            data: [18700, 19500, 20100, 18900],
+                            backgroundColor: 'rgba(255, 58, 58, 0.8)',
+                            borderColor: '#ff3a3a',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#f0f2ff'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#8a8db9',
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#8a8db9'
+                                }
                             }
                         }
+                    }
+                });
+            }
+            
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart')?.getContext('2d');
+            if (revenueCtx) {
+                revenueChart = new Chart(revenueCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Révisions', 'Réparations', 'Customisation', 'Peinture', 'Performance'],
+                        datasets: [{
+                            data: [35, 28, 20, 12, 5],
+                            backgroundColor: [
+                                '#ff3a3a',
+                                '#00d4aa',
+                                '#ffcc00',
+                                '#4d8af0',
+                                '#8a8db9'
+                            ],
+                            borderWidth: 0
+                        }]
                     },
-                    cutout: '70%'
-                }
-            });
-        }
-
-        // Chargement des données de démonstration
-        function loadDemoData() {
-            // Tableau de bord
-            updateDashboardStats();
-            loadRecentActivities();
-            
-            // Rendez-vous
-            loadAppointments();
-            initCalendar();
-            
-            // Véhicules
-            loadVehicles();
-        }
-
-        // Mise à jour des statistiques
-        function updateDashboardStats() {
-            const inProgressVehicles = demoData.vehicles.filter(v => v.status === 'in-progress').length;
-            const today = new Date().toISOString().split('T')[0];
-            const todayAppointments = demoData.appointments.filter(a => a.date === today).length;
-            const activeEmployees = demoData.employees.filter(e => e.status === 'active').length;
-            
-            document.getElementById('vehiclesInProgress').textContent = inProgressVehicles;
-            document.getElementById('todayAppointments').textContent = todayAppointments;
-            document.getElementById('employeeCount').textContent = activeEmployees;
-        }
-
-        // Chargement des activités récentes
-        function loadRecentActivities() {
-            const table = document.getElementById('recentActivitiesTable');
-            table.innerHTML = '';
-            
-            demoData.recentActivities.forEach(activity => {
-                const row = document.createElement('tr');
-                row.className = 'animate-fadeInUp';
-                row.innerHTML = `
-                    <td><strong>${activity.vehicle}</strong></td>
-                    <td>${activity.client}</td>
-                    <td>${activity.service}</td>
-                    <td>${activity.employee}</td>
-                    <td><span class="status-badge ${getStatusClass(activity.status)}">${getStatusText(activity.status)}</span></td>
-                    <td>
-                        <div class="table-actions-cell">
-                            <button class="table-action-btn" title="Voir les détails">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="table-action-btn" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="table-action-btn" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                table.appendChild(row);
-            });
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#f0f2ff',
+                                    padding: 20
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         // Chargement des rendez-vous
         function loadAppointments() {
             const table = document.getElementById('appointmentsTable');
+            if (!table) return;
+            
             table.innerHTML = '';
             
-            const today = new Date().toISOString().split('T')[0];
-            const todayAppointments = demoData.appointments.filter(a => a.date === today);
+            const today = getTodayDate();
+            const todayAppointments = appData.appointments.filter(a => a.date === today);
             
             todayAppointments.forEach(appointment => {
                 const row = document.createElement('tr');
@@ -2217,13 +3060,13 @@
                     <td><span class="status-badge ${getAppointmentStatusClass(appointment.status)}">${getAppointmentStatusText(appointment.status)}</span></td>
                     <td>
                         <div class="table-actions-cell">
-                            <button class="table-action-btn" title="Confirmer">
+                            <button class="table-action-btn" title="Confirmer" onclick="confirmAppointment(${appointment.id})">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="table-action-btn" title="Reporter">
+                            <button class="table-action-btn" title="Reporter" onclick="rescheduleAppointment(${appointment.id})">
                                 <i class="fas fa-clock"></i>
                             </button>
-                            <button class="table-action-btn" title="Annuler">
+                            <button class="table-action-btn" title="Annuler" onclick="cancelAppointment(${appointment.id})">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -2231,109 +3074,26 @@
                 `;
                 table.appendChild(row);
             });
-        }
-
-        // Initialisation du calendrier
-        function initCalendar() {
-            updateCalendar();
             
-            // Navigation du calendrier
-            document.getElementById('prevMonth').addEventListener('click', function() {
-                appState.calendarDate.setMonth(appState.calendarDate.getMonth() - 1);
-                updateCalendar();
-            });
-            
-            document.getElementById('nextMonth').addEventListener('click', function() {
-                appState.calendarDate.setMonth(appState.calendarDate.getMonth() + 1);
-                updateCalendar();
-            });
-            
-            document.getElementById('todayBtn').addEventListener('click', function() {
-                appState.calendarDate = new Date();
-                updateCalendar();
-            });
-        }
-
-        // Mise à jour du calendrier
-        function updateCalendar() {
-            const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-                              "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-            
-            const currentMonth = document.getElementById('currentMonth');
-            currentMonth.textContent = `${monthNames[appState.calendarDate.getMonth()]} ${appState.calendarDate.getFullYear()}`;
-            
-            const calendarGrid = document.getElementById('calendarGrid');
-            calendarGrid.innerHTML = '';
-            
-            // Jours de la semaine
-            const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-            days.forEach(day => {
-                const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day';
-                dayElement.textContent = day;
-                calendarGrid.appendChild(dayElement);
-            });
-            
-            // Dates
-            const firstDay = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth(), 1);
-            const lastDay = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth() + 1, 0);
-            const today = new Date();
-            
-            // Ajouter les jours vides du début
-            for (let i = 0; i < firstDay.getDay(); i++) {
-                const emptyElement = document.createElement('div');
-                emptyElement.className = 'calendar-date';
-                calendarGrid.appendChild(emptyElement);
-            }
-            
-            // Ajouter les jours du mois
-            for (let day = 1; day <= lastDay.getDate(); day++) {
-                const dateElement = document.createElement('div');
-                dateElement.className = 'calendar-date';
-                dateElement.textContent = day;
-                
-                const currentDate = new Date(appState.calendarDate.getFullYear(), appState.calendarDate.getMonth(), day);
-                
-                // Vérifier si c'est aujourd'hui
-                if (currentDate.toDateString() === today.toDateString()) {
-                    dateElement.classList.add('today');
-                }
-                
-                // Vérifier s'il y a des rendez-vous
-                const dateString = currentDate.toISOString().split('T')[0];
-                const hasAppointment = demoData.appointments.some(a => a.date === dateString);
-                if (hasAppointment) {
-                    dateElement.classList.add('has-event');
-                }
-                
-                // Vérifier si la date est sélectionnée
-                if (appState.selectedDate && appState.selectedDate.toDateString() === currentDate.toDateString()) {
-                    dateElement.classList.add('selected');
-                }
-                
-                dateElement.addEventListener('click', function() {
-                    appState.selectedDate = currentDate;
-                    updateCalendar();
-                    // Charger les rendez-vous de cette date
-                    // loadAppointmentsForDate(dateString);
-                });
-                
-                calendarGrid.appendChild(dateElement);
-            }
+            // Mettre à jour le badge
+            updateNavBadge('rdv-page', todayAppointments.length);
         }
 
         // Chargement des véhicules
         function loadVehicles() {
             const table = document.getElementById('vehiclesTable');
+            if (!table) return;
+            
             table.innerHTML = '';
             
-            demoData.vehicles.forEach(vehicle => {
+            appData.vehicles.forEach(vehicle => {
                 const row = document.createElement('tr');
-                row.className = 'animate-slideInLeft';
                 row.innerHTML = `
                     <td>
                         <div><strong>${vehicle.model}</strong></div>
-                        <small class="text-muted">${vehicle.priority === 'urgent' ? '🚨 URGENT' : vehicle.priority === 'high' ? '⚠️ HAUTE' : '🟢 NORMALE'}</small>
+                        <small style="color: ${getPriorityColor(vehicle.priority)}; font-size: 0.8rem;">
+                            ${getPriorityIcon(vehicle.priority)} ${vehicle.priority === 'urgent' ? 'URGENT' : vehicle.priority === 'high' ? 'HAUTE' : 'NORMALE'}
+                        </small>
                     </td>
                     <td>${vehicle.plate}</td>
                     <td>${vehicle.owner}</td>
@@ -2343,13 +3103,13 @@
                     <td><span class="status-badge ${getVehicleStatusClass(vehicle.status)}">${getVehicleStatusText(vehicle.status)}</span></td>
                     <td>
                         <div class="table-actions-cell">
-                            <button class="table-action-btn" title="Détails">
-                                <i class="fas fa-info-circle"></i>
+                            <button class="table-action-btn" title="Détails" onclick="viewVehicleDetails(${vehicle.id})">
+                                <i class="fas fa-eye"></i>
                             </button>
-                            <button class="table-action-btn" title="Mettre à jour">
+                            <button class="table-action-btn" title="Mettre à jour" onclick="updateVehicleStatus(${vehicle.id})">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
-                            <button class="table-action-btn" title="Facturer">
+                            <button class="table-action-btn" title="Facturer" onclick="invoiceVehicle(${vehicle.id})">
                                 <i class="fas fa-file-invoice-dollar"></i>
                             </button>
                         </div>
@@ -2357,84 +3117,382 @@
                 `;
                 table.appendChild(row);
             });
+            
+            // Mettre à jour le badge
+            const inProgressVehicles = appData.vehicles.filter(v => v.status === 'in-progress').length;
+            updateNavBadge('vehicules-page', inProgressVehicles);
+        }
+
+        // Chargement du stock
+        function loadStock() {
+            const table = document.getElementById('stockTable');
+            if (!table) return;
+            
+            table.innerHTML = '';
+            
+            let filteredStock = appData.stock;
+            
+            // Appliquer le filtre
+            if (currentStockFilter === 'low') {
+                filteredStock = appData.stock.filter(item => item.quantity <= item.minThreshold);
+            } else if (currentStockFilter === 'medium') {
+                filteredStock = appData.stock.filter(item => item.quantity > item.minThreshold && item.quantity <= item.minThreshold * 2);
+            } else if (currentStockFilter === 'high') {
+                filteredStock = appData.stock.filter(item => item.quantity > item.minThreshold * 2);
+            }
+            
+            filteredStock.forEach(item => {
+                const totalValue = item.quantity * item.unitPrice;
+                const stockStatus = item.quantity <= item.minThreshold ? 'danger' : 
+                                   item.quantity <= item.minThreshold * 1.5 ? 'warning' : 'success';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.ref}</strong></td>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.minThreshold}</td>
+                    <td>$${item.unitPrice.toLocaleString()}</td>
+                    <td>$${totalValue.toLocaleString()}</td>
+                    <td><span class="status-badge status-${stockStatus}">${getStockStatusText(stockStatus)}</span></td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Commander" onclick="orderStockItem(${item.id})">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            <button class="table-action-btn" title="Modifier" onclick="editStockItem(${item.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="table-action-btn" title="Supprimer" onclick="deleteStockItem(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            // Mettre à jour les statistiques
+            updateStockStats();
+        }
+
+        // Chargement des finances
+        function loadFinances() {
+            const table = document.getElementById('transactionsTable');
+            if (!table) return;
+            
+            table.innerHTML = '';
+            
+            let filteredTransactions = appData.finances.transactions;
+            
+            // Appliquer le filtre
+            if (currentTransactionFilter === 'income') {
+                filteredTransactions = appData.finances.transactions.filter(t => t.type === 'income');
+            } else if (currentTransactionFilter === 'expense') {
+                filteredTransactions = appData.finances.transactions.filter(t => t.type === 'expense');
+            }
+            
+            filteredTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(transaction.date)}</td>
+                    <td>${transaction.description}</td>
+                    <td><span class="status-badge ${transaction.type === 'income' ? 'status-success' : 'status-danger'}">${transaction.type === 'income' ? 'Revenu' : 'Dépense'}</span></td>
+                    <td><strong style="color: ${transaction.type === 'income' ? '#00d4aa' : '#ff3a3a'}">${transaction.type === 'income' ? '+' : '-'}$${transaction.amount.toLocaleString()}</strong></td>
+                    <td>${transaction.method}</td>
+                    <td>${transaction.client || transaction.supplier}</td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Détails" onclick="viewTransactionDetails(${transaction.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="table-action-btn" title="Modifier" onclick="editTransaction(${transaction.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            // Mettre à jour les statistiques financières
+            updateFinancialStats();
+        }
+
+        // Chargement des employés
+        function loadEmployees() {
+            const table = document.getElementById('employeesTable');
+            if (!table) return;
+            
+            table.innerHTML = '';
+            
+            let filteredEmployees = appData.employees;
+            
+            // Appliquer le filtre
+            if (currentEmployeeFilter === 'active') {
+                filteredEmployees = appData.employees.filter(e => e.status === 'active');
+            } else if (currentEmployeeFilter === 'inactive') {
+                filteredEmployees = appData.employees.filter(e => e.status === 'inactive');
+            } else if (currentEmployeeFilter === 'leave') {
+                filteredEmployees = appData.employees.filter(e => e.status === 'leave');
+            }
+            
+            filteredEmployees.forEach(employee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${employee.id}</strong></td>
+                    <td>${employee.name}</td>
+                    <td>${getRoleName(employee.role)}</td>
+                    <td>${employee.phone}</td>
+                    <td><span class="status-badge ${getEmployeeStatusClass(employee.status)}">${getEmployeeStatusText(employee.status)}</span></td>
+                    <td>$${employee.salary.toLocaleString()}</td>
+                    <td>${employee.hours}h</td>
+                    <td><span class="status-badge ${employee.status === 'active' ? 'status-success' : employee.status === 'leave' ? 'status-warning' : 'status-danger'}">${getEmployeeStatusText(employee.status)}</span></td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Contacter" onclick="contactEmployee('${employee.phone}')">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="table-action-btn" title="Modifier" onclick="editEmployee('${employee.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="table-action-btn" title="Détails" onclick="viewEmployeeDetails('${employee.id}')">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            // Mettre à jour les statistiques des employés
+            updateEmployeeStats();
+        }
+
+        // Chargement des clients
+        function loadClients() {
+            const table = document.getElementById('clientsTable');
+            if (!table) return;
+            
+            table.innerHTML = '';
+            
+            let filteredClients = appData.clients;
+            
+            // Appliquer le filtre
+            if (currentClientFilter === 'active') {
+                filteredClients = appData.clients.filter(c => c.status === 'active');
+            } else if (currentClientFilter === 'vip') {
+                filteredClients = appData.clients.filter(c => c.status === 'vip');
+            } else if (currentClientFilter === 'inactive') {
+                filteredClients = appData.clients.filter(c => c.status === 'inactive');
+            }
+            
+            filteredClients.forEach(client => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${client.id}</strong></td>
+                    <td>${client.name}</td>
+                    <td>${client.phone}</td>
+                    <td>${client.email}</td>
+                    <td>${client.vehicles.join(', ')}</td>
+                    <td>$${client.totalSpent.toLocaleString()}</td>
+                    <td>${formatDate(client.lastVisit)}</td>
+                    <td><span class="status-badge ${client.status === 'vip' ? 'status-warning' : client.status === 'active' ? 'status-success' : 'status-danger'}">${client.status === 'vip' ? 'VIP' : client.status === 'active' ? 'Actif' : 'Inactif'}</span></td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Contacter" onclick="contactClient('${client.phone}')">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="table-action-btn" title="Modifier" onclick="editClient('${client.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="table-action-btn" title="Historique" onclick="viewClientHistory('${client.id}')">
+                                <i class="fas fa-history"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            // Mettre à jour les statistiques des clients
+            updateClientStats();
+        }
+
+        // Chargement des documents
+        function loadDocuments() {
+            const table = document.getElementById('documentsTable');
+            if (!table) return;
+            
+            table.innerHTML = '';
+            
+            appData.documents.forEach(doc => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><i class="fas fa-file-${doc.type}"></i> ${doc.name}</td>
+                    <td>${doc.type.toUpperCase()}</td>
+                    <td>${doc.size}</td>
+                    <td>${doc.folder}</td>
+                    <td>${formatDate(doc.modified)}</td>
+                    <td>${doc.modifiedBy}</td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="table-action-btn" title="Télécharger" onclick="downloadDocument(${doc.id})">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="table-action-btn" title="Partager" onclick="shareDocument(${doc.id})">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="table-action-btn" title="Supprimer" onclick="deleteDocument(${doc.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            // Mettre à jour les statistiques des documents
+            updateDocumentStats();
+        }
+
+        // Chargement des paramètres
+        function loadSettings() {
+            const settings = appData.settings;
+            
+            // Remplir les champs du formulaire
+            document.getElementById('companyName').value = settings.companyName;
+            document.getElementById('serverName').value = settings.serverName;
+            document.getElementById('timezone').value = settings.timezone;
+            document.getElementById('language').value = settings.language;
+            document.getElementById('currency').value = settings.currency;
+            document.getElementById('dateFormat').value = settings.dateFormat;
+            document.getElementById('workHoursStart').value = settings.workHoursStart;
+            document.getElementById('workHoursEnd').value = settings.workHoursEnd;
+            document.getElementById('maxVehicles').value = settings.maxVehicles;
+            document.getElementById('appointmentDuration').value = settings.appointmentDuration;
+            document.getElementById('taxRate').value = settings.taxRate;
+            document.getElementById('vatIncluded').value = settings.vatIncluded;
+            document.getElementById('notificationEmail').value = settings.notificationEmail;
         }
 
         // Configuration des événements
         function setupEventListeners() {
             // Boutons d'action rapide
-            document.getElementById('quickAddAppointment').addEventListener('click', function() {
-                openAppointmentModal();
+            document.getElementById('quickAddAppointment')?.addEventListener('click', openAppointmentModal);
+            document.getElementById('newAppointmentBtn')?.addEventListener('click', openAppointmentModal);
+            document.getElementById('newVehicleBtn')?.addEventListener('click', openVehicleModal);
+            document.getElementById('newStockItemBtn')?.addEventListener('click', openStockModal);
+            document.getElementById('newEmployeeBtn')?.addEventListener('click', openEmployeeModal);
+            document.getElementById('newClientBtn')?.addEventListener('click', openClientModal);
+            
+            // Filtres
+            setupFilters();
+            
+            // Recherche
+            setupSearch();
+            
+            // Paramètres
+            setupSettings();
+        }
+
+        // Configuration des filtres
+        function setupFilters() {
+            // Filtres stock
+            document.querySelectorAll('#stockFilters .filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('#stockFilters .filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentStockFilter = this.dataset.filter;
+                    loadStock();
+                });
             });
             
-            document.getElementById('newAppointmentBtn').addEventListener('click', function() {
-                openAppointmentModal();
+            // Filtres employés
+            document.querySelectorAll('#employeeFilters .filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('#employeeFilters .filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentEmployeeFilter = this.dataset.filter;
+                    loadEmployees();
+                });
             });
             
-            // Modal des rendez-vous
-            document.getElementById('closeAppointmentModal').addEventListener('click', function() {
-                closeAppointmentModal();
+            // Filtres clients
+            document.querySelectorAll('#clientFilters .filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('#clientFilters .filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentClientFilter = this.dataset.filter;
+                    loadClients();
+                });
             });
             
-            document.getElementById('cancelAppointment').addEventListener('click', function() {
-                closeAppointmentModal();
+            // Filtres transactions
+            document.querySelectorAll('#transactionFilters .filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('#transactionFilters .filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTransactionFilter = this.dataset.filter;
+                    loadFinances();
+                });
             });
             
-            // Soumission du formulaire de rendez-vous
-            document.getElementById('appointmentForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                createAppointment();
-            });
-            
-            // Notification bell
-            document.getElementById('notificationBell').addEventListener('click', function() {
-                showNotification('Notifications', 'Vous avez 3 notifications non lues');
+            // Onglets paramètres
+            document.querySelectorAll('#settingsTabs .filter-tag').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('#settingsTabs .filter-tag').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
+                });
             });
         }
 
-        // Modal des rendez-vous
-        function openAppointmentModal() {
-            document.getElementById('appointmentModal').classList.add('active');
-            // Set default date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('appointmentDate').value = today;
-        }
-
-        function closeAppointmentModal() {
-            document.getElementById('appointmentModal').classList.remove('active');
-            document.getElementById('appointmentForm').reset();
-        }
-
-        function createAppointment() {
-            const client = document.getElementById('appointmentClient').value;
-            const vehicle = document.getElementById('appointmentVehicle').value;
-            const date = document.getElementById('appointmentDate').value;
-            const time = document.getElementById('appointmentTime').value;
-            const service = document.getElementById('appointmentService').value;
-            
-            if (client && vehicle && date && time && service) {
-                // Simuler la création
-                const newId = demoData.appointments.length + 1;
-                const newAppointment = {
-                    id: newId,
-                    date: date,
-                    time: time,
-                    client: document.getElementById('appointmentClient').options[document.getElementById('appointmentClient').selectedIndex].text,
-                    phone: "555-0000",
-                    vehicle: vehicle,
-                    service: document.getElementById('appointmentService').options[document.getElementById('appointmentService').selectedIndex].text,
-                    status: "pending",
-                    employee: null
-                };
+        // Configuration de la recherche
+        function setupSearch() {
+            // Recherche stock
+            document.getElementById('stockSearch')?.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#stockTable tr');
                 
-                demoData.appointments.push(newAppointment);
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+            
+            // Recherche employés
+            document.getElementById('employeeSearch')?.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#employeesTable tr');
                 
-                closeAppointmentModal();
-                loadAppointments();
-                updateDashboardStats();
-                showNotification('Rendez-vous créé', 'Le rendez-vous a été ajouté avec succès');
-            } else {
-                showNotification('Formulaire incomplet', 'Veuillez remplir tous les champs obligatoires', 'error');
-            }
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+            
+            // Recherche clients
+            document.getElementById('clientSearch')?.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#clientsTable tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+        }
+
+        // Configuration des paramètres
+        function setupSettings() {
+            // Sauvegarde des paramètres
+            document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettings);
+            
+            // Réinitialisation des paramètres
+            document.getElementById('resetSettingsBtn')?.addEventListener('click', resetSettings);
         }
 
         // Fonctions utilitaires
@@ -2451,24 +3509,6 @@
 
         function getInitials(name) {
             return name.split(' ').map(n => n[0]).join('').toUpperCase();
-        }
-
-        function getStatusClass(status) {
-            const classes = {
-                'in-progress': 'status-warning',
-                'completed': 'status-success',
-                'waiting': 'status-info'
-            };
-            return classes[status] || 'status-info';
-        }
-
-        function getStatusText(status) {
-            const texts = {
-                'in-progress': 'En cours',
-                'completed': 'Terminé',
-                'waiting': 'En attente'
-            };
-            return texts[status] || status;
         }
 
         function getAppointmentStatusClass(status) {
@@ -2507,9 +3547,172 @@
             return texts[status] || status;
         }
 
+        function getEmployeeStatusClass(status) {
+            const classes = {
+                'active': 'status-success',
+                'inactive': 'status-danger',
+                'leave': 'status-warning'
+            };
+            return classes[status] || 'status-info';
+        }
+
+        function getEmployeeStatusText(status) {
+            const texts = {
+                'active': 'Actif',
+                'inactive': 'Inactif',
+                'leave': 'Congé'
+            };
+            return texts[status] || status;
+        }
+
+        function getStockStatusText(status) {
+            const texts = {
+                'danger': 'Rupture',
+                'warning': 'Stock faible',
+                'success': 'Stock OK'
+            };
+            return texts[status] || status;
+        }
+
+        function getPriorityColor(priority) {
+            const colors = {
+                'urgent': '#ff3a3a',
+                'high': '#ffcc00',
+                'normal': '#00d4aa'
+            };
+            return colors[priority] || '#8a8db9';
+        }
+
+        function getPriorityIcon(priority) {
+            const icons = {
+                'urgent': '🚨',
+                'high': '⚠️',
+                'normal': '🟢'
+            };
+            return icons[priority] || '⚪';
+        }
+
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('fr-FR');
+        }
+
+        function getTodayDate() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function getTomorrowDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow.toISOString().split('T')[0];
+        }
+
+        function getPastDate(daysAgo) {
+            const date = new Date();
+            date.setDate(date.getDate() - daysAgo);
+            return date.toISOString().split('T')[0];
+        }
+
+        function getFutureDate(daysFromNow) {
+            const date = new Date();
+            date.setDate(date.getDate() + daysFromNow);
+            return date.toISOString().split('T')[0];
+        }
+
+        // Mise à jour des statistiques
+        function updateStockStats() {
+            const totalItems = appData.stock.length;
+            const lowStockItems = appData.stock.filter(item => item.quantity <= item.minThreshold).length;
+            const stockValue = appData.stock.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
+            
+            document.getElementById('totalStockItems').textContent = totalItems;
+            document.getElementById('lowStockItems').textContent = lowStockItems;
+            document.getElementById('stockValue').textContent = `$${stockValue.toLocaleString()}`;
+        }
+
+        function updateFinancialStats() {
+            const today = getTodayDate();
+            const todayIncome = appData.finances.transactions
+                .filter(t => t.type === 'income' && t.date === today)
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const todayExpenses = appData.finances.transactions
+                .filter(t => t.type === 'expense' && t.date === today)
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const totalIncome = appData.finances.transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const totalExpenses = appData.finances.transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const monthlyProfit = totalIncome - totalExpenses;
+            const totalBalance = monthlyProfit * 3; // Simulation
+            
+            document.getElementById('todayRevenue').textContent = `$${todayIncome.toLocaleString()}`;
+            document.getElementById('todayExpenses').textContent = `$${todayExpenses.toLocaleString()}`;
+            document.getElementById('monthlyProfit').textContent = `$${monthlyProfit.toLocaleString()}`;
+            document.getElementById('totalBalance').textContent = `$${totalBalance.toLocaleString()}`;
+        }
+
+        function updateEmployeeStats() {
+            const totalEmployees = appData.employees.length;
+            const activeEmployees = appData.employees.filter(e => e.status === 'active').length;
+            const onLeave = appData.employees.filter(e => e.status === 'leave').length;
+            const inactiveEmployees = appData.employees.filter(e => e.status === 'inactive').length;
+            
+            document.getElementById('totalEmployees').textContent = totalEmployees;
+            document.getElementById('activeEmployees').textContent = activeEmployees;
+            document.getElementById('onLeave').textContent = onLeave;
+            document.getElementById('inactiveEmployees').textContent = inactiveEmployees;
+        }
+
+        function updateClientStats() {
+            const totalClients = appData.clients.length;
+            const activeClients = appData.clients.filter(c => c.status === 'active').length;
+            const vipClients = appData.clients.filter(c => c.status === 'vip').length;
+            const inactiveClients = appData.clients.filter(c => c.status === 'inactive').length;
+            
+            document.getElementById('totalClients').textContent = totalClients;
+            document.getElementById('activeClients').textContent = activeClients;
+            document.getElementById('vipClients').textContent = vipClients;
+            document.getElementById('inactiveClients').textContent = inactiveClients;
+        }
+
+        function updateDocumentStats() {
+            const totalDocuments = appData.documents.length;
+            const pdfDocuments = appData.documents.filter(d => d.type === 'pdf').length;
+            const excelDocuments = appData.documents.filter(d => d.type === 'excel').length;
+            
+            document.getElementById('totalDocuments').textContent = totalDocuments;
+            document.getElementById('pdfDocuments').textContent = pdfDocuments;
+            document.getElementById('excelDocuments').textContent = excelDocuments;
+        }
+
+        function updateNavBadges() {
+            const todayAppointments = appData.appointments.filter(a => a.date === getTodayDate()).length;
+            const inProgressVehicles = appData.vehicles.filter(v => v.status === 'in-progress').length;
+            
+            updateNavBadge('rdv-page', todayAppointments);
+            updateNavBadge('vehicules-page', inProgressVehicles);
+        }
+
+        function updateNavBadge(pageId, count) {
+            const navItem = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+            if (navItem) {
+                let badge = navItem.querySelector('.nav-badge');
+                if (!badge && count > 0) {
+                    badge = document.createElement('span');
+                    badge.className = 'nav-badge';
+                    navItem.appendChild(badge);
+                }
+                if (badge) {
+                    badge.textContent = count > 0 ? count : '';
+                    badge.style.display = count > 0 ? 'flex' : 'none';
+                }
+            }
         }
 
         // Système de notifications
@@ -2543,6 +3746,170 @@
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 5000);
+        }
+
+        // Fonctions pour les modals (simplifiées pour cet exemple)
+        function openAppointmentModal() {
+            showNotification('Info', 'Modal rendez-vous - À implémenter complètement');
+        }
+
+        function openVehicleModal() {
+            showNotification('Info', 'Modal véhicule - À implémenter complètement');
+        }
+
+        function openStockModal() {
+            showNotification('Info', 'Modal stock - À implémenter complètement');
+        }
+
+        function openEmployeeModal() {
+            showNotification('Info', 'Modal employé - À implémenter complètement');
+        }
+
+        function openClientModal() {
+            showNotification('Info', 'Modal client - À implémenter complètement');
+        }
+
+        // Fonctions pour les actions
+        function confirmAppointment(id) {
+            const appointment = appData.appointments.find(a => a.id === id);
+            if (appointment) {
+                appointment.status = 'confirmed';
+                appointment.employee = appData.currentUser?.name || 'Auto-assigné';
+                loadAppointments();
+                showNotification('Rendez-vous confirmé', `Le RDV de ${appointment.client} a été confirmé`, 'success');
+            }
+        }
+
+        function rescheduleAppointment(id) {
+            showNotification('Info', `Fonctionnalité de report pour le RDV ${id} - À implémenter`);
+        }
+
+        function cancelAppointment(id) {
+            if (confirm('Voulez-vous vraiment annuler ce rendez-vous ?')) {
+                const appointment = appData.appointments.find(a => a.id === id);
+                if (appointment) {
+                    appointment.status = 'cancelled';
+                    loadAppointments();
+                    showNotification('Rendez-vous annulé', `Le RDV de ${appointment.client} a été annulé`, 'error');
+                }
+            }
+        }
+
+        function viewVehicleDetails(id) {
+            showNotification('Détails véhicule', `Affichage des détails du véhicule ${id} - À implémenter`);
+        }
+
+        function updateVehicleStatus(id) {
+            showNotification('Mise à jour', `Mise à jour du statut du véhicule ${id} - À implémenter`);
+        }
+
+        function invoiceVehicle(id) {
+            showNotification('Facturation', `Génération de facture pour le véhicule ${id} - À implémenter`);
+        }
+
+        function orderStockItem(id) {
+            showNotification('Commande', `Commande de la pièce ${id} - À implémenter`);
+        }
+
+        function editStockItem(id) {
+            showNotification('Modification', `Modification de la pièce ${id} - À implémenter`);
+        }
+
+        function deleteStockItem(id) {
+            if (confirm('Voulez-vous vraiment supprimer cette pièce du stock ?')) {
+                showNotification('Suppression', `Pièce ${id} supprimée - À implémenter`, 'error');
+            }
+        }
+
+        function viewTransactionDetails(id) {
+            showNotification('Détails transaction', `Affichage de la transaction ${id} - À implémenter`);
+        }
+
+        function editTransaction(id) {
+            showNotification('Modification', `Modification de la transaction ${id} - À implémenter`);
+        }
+
+        function contactEmployee(phone) {
+            showNotification('Contact', `Appel de l'employé au ${phone} - À implémenter`);
+        }
+
+        function editEmployee(id) {
+            showNotification('Modification', `Modification de l'employé ${id} - À implémenter`);
+        }
+
+        function viewEmployeeDetails(id) {
+            showNotification('Détails employé', `Affichage des détails de l'employé ${id} - À implémenter`);
+        }
+
+        function contactClient(phone) {
+            showNotification('Contact', `Appel du client au ${phone} - À implémenter`);
+        }
+
+        function editClient(id) {
+            showNotification('Modification', `Modification du client ${id} - À implémenter`);
+        }
+
+        function viewClientHistory(id) {
+            showNotification('Historique', `Affichage de l'historique du client ${id} - À implémenter`);
+        }
+
+        function downloadDocument(id) {
+            showNotification('Téléchargement', `Téléchargement du document ${id} - À implémenter`);
+        }
+
+        function shareDocument(id) {
+            showNotification('Partage', `Partage du document ${id} - À implémenter`);
+        }
+
+        function deleteDocument(id) {
+            if (confirm('Voulez-vous vraiment supprimer ce document ?')) {
+                showNotification('Suppression', `Document ${id} supprimé - À implémenter`, 'error');
+            }
+        }
+
+        // Sauvegarde des paramètres
+        function saveSettings() {
+            const settings = {
+                companyName: document.getElementById('companyName').value,
+                serverName: document.getElementById('serverName').value,
+                timezone: document.getElementById('timezone').value,
+                language: document.getElementById('language').value,
+                currency: document.getElementById('currency').value,
+                dateFormat: document.getElementById('dateFormat').value,
+                workHoursStart: document.getElementById('workHoursStart').value,
+                workHoursEnd: document.getElementById('workHoursEnd').value,
+                maxVehicles: parseInt(document.getElementById('maxVehicles').value),
+                appointmentDuration: parseInt(document.getElementById('appointmentDuration').value),
+                taxRate: parseFloat(document.getElementById('taxRate').value),
+                vatIncluded: document.getElementById('vatIncluded').value,
+                notificationEmail: document.getElementById('notificationEmail').value
+            };
+            
+            appData.settings = settings;
+            showNotification('Paramètres sauvegardés', 'Les paramètres ont été mis à jour avec succès', 'success');
+        }
+
+        function resetSettings() {
+            if (confirm('Voulez-vous vraiment réinitialiser tous les paramètres ?')) {
+                appData.settings = {
+                    companyName: "Benny's Original Motor Works",
+                    serverName: "Fantastic FiveM",
+                    timezone: "Europe/Paris",
+                    language: "fr",
+                    currency: "$",
+                    dateFormat: "dd/mm/yyyy",
+                    workHoursStart: "08:00",
+                    workHoursEnd: "20:00",
+                    maxVehicles: 15,
+                    appointmentDuration: 60,
+                    taxRate: 20,
+                    vatIncluded: "yes",
+                    notificationEmail: "notifications@bennys-ls.com"
+                };
+                
+                loadSettings();
+                showNotification('Paramètres réinitialisés', 'Tous les paramètres ont été réinitialisés', 'success');
+            }
         }
     </script>
 </body>
