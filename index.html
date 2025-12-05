@@ -3,1204 +3,1135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚔 MDT Police - Gestion Véhicules | Système Intégré</title>
-    <link rel="stylesheet" href="html/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Intranet Benny's - Fantastic FiveM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0d1b2a;
+            --secondary: #1b263b;
+            --accent: #e63946;
+            --accent-light: #ff6b6b;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --light: #f8f9fa;
+            --gray: #adb5bd;
+            --dark-gray: #495057;
+        }
+
+        body {
+            background-color: #0a141f;
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo i {
+            font-size: 3.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .login-logo h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .login-logo span {
+            color: var(--accent);
+        }
+
+        .login-logo p {
+            color: var(--gray);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background-color: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--accent);
+            color: var(--light);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            background-color: var(--accent-light);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Main Dashboard (hidden until login) */
+        .dashboard {
+            display: none;
+        }
+
+        /* Header Dashboard */
+        .dashboard-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .dashboard-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-logo i {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .dashboard-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-logo span {
+            color: var(--accent);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--accent);
+            color: var(--light);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--secondary);
+            padding: 2rem 1rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--light);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background-color: var(--accent);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .stat-1 .stat-icon {
+            background-color: rgba(42, 157, 143, 0.2);
+            color: var(--success);
+        }
+
+        .stat-2 .stat-icon {
+            background-color: rgba(233, 196, 106, 0.2);
+            color: var(--warning);
+        }
+
+        .stat-3 .stat-icon {
+            background-color: rgba(230, 57, 70, 0.2);
+            color: var(--accent);
+        }
+
+        .stat-4 .stat-icon {
+            background-color: rgba(64, 123, 255, 0.2);
+            color: #407bff;
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background-color: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .add-btn {
+            background-color: var(--accent);
+            color: var(--light);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
+            background-color: var(--accent-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-en-cours {
+            background-color: rgba(233, 196, 106, 0.2);
+            color: var(--warning);
+        }
+
+        .status-termine {
+            background-color: rgba(42, 157, 143, 0.2);
+            color: var(--success);
+        }
+
+        .status-attente {
+            background-color: rgba(108, 117, 125, 0.2);
+            color: var(--gray);
+        }
+
+        .action-btn {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            margin-right: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--accent);
+            color: var(--light);
+        }
+
+        /* Forms */
+        .form-container {
+            background-color: var(--secondary);
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .cancel-btn {
+            background-color: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+            padding: 0.8rem 1.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cancel-btn:hover {
+            background-color: var(--gray);
+            color: var(--light);
+        }
+
+        .submit-btn {
+            background-color: var(--accent);
+            color: var(--light);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-light);
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Écran de connexion -->
+    <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
-        <div class="login-background"></div>
-        <div class="login-glow login-glow-1"></div>
-        <div class="login-glow login-glow-2"></div>
-        
-        <div class="login-card">
+        <div class="login-container">
             <div class="login-logo">
-                <i class="fas fa-shield-alt"></i>
+                <i class="fas fa-tools"></i>
+                <h1>Benny's <span>Intranet</span></h1>
+                <p>Accès réservé aux employés - Serveur Fantastic</p>
             </div>
-            <h1 class="login-title">MDT Police</h1>
-            <p class="login-subtitle">Système intégré de gestion des véhicules</p>
             
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="username">
-                        <i class="fas fa-user"></i> Identifiant
-                    </label>
-                    <div class="input-group">
-                        <i class="fas fa-user-circle"></i>
-                        <input type="text" id="username" class="form-control" 
-                               placeholder="Entrez votre identifiant" value="agent.police" required>
-                    </div>
+                    <label for="employeeId">ID Employé</label>
+                    <input type="text" id="employeeId" placeholder="Ex: BNY-001" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">
-                        <i class="fas fa-lock"></i> Mot de passe
-                    </label>
-                    <div class="input-group">
-                        <i class="fas fa-key"></i>
-                        <input type="password" id="password" class="form-control" 
-                               placeholder="Entrez votre mot de passe" value="••••••••" required>
-                    </div>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" placeholder="Votre mot de passe" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="station">
-                        <i class="fas fa-building"></i> Commissariat
-                    </label>
-                    <div class="input-group">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <select id="station" class="form-control" required>
-                            <option value="">Sélectionnez votre commissariat</option>
-                            <option value="HQ">Quartier Général</option>
-                            <option value="PRECINCT_1">Commissariat Centre</option>
-                            <option value="PRECINCT_2">Commissariat Nord</option>
-                            <option value="PRECINCT_3">Commissariat Sud</option>
-                            <option value="TRAFFIC">Unité Circulation</option>
-                        </select>
-                    </div>
+                    <label for="role">Rôle</label>
+                    <select id="role" required>
+                        <option value="">Sélectionnez votre rôle</option>
+                        <option value="mecanicien">Mécanicien</option>
+                        <option value="patron">Patron/Gérant</option>
+                        <option value="reception">Réception</option>
+                        <option value="customiser">Customiseur</option>
+                    </select>
                 </div>
                 
-                <button type="submit" class="login-btn" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Connexion
-                </button>
+                <button type="submit" class="login-btn">Se Connecter</button>
             </form>
             
             <div class="login-footer">
-                <p class="login-hint">
-                    <i class="fas fa-info-circle"></i>
-                    Démo : utilisez "agent.police" et cliquez sur "Connexion"
-                </p>
-                <div class="login-security">
-                    <i class="fas fa-shield-check"></i>
-                    <span>Système sécurisé - Protocole TLS 1.3</span>
-                </div>
+                <p>En cas de problème, contactez le gérant du Benny's</p>
+                <p>Serveur Fantastic FiveM</p>
             </div>
         </div>
     </div>
 
-    <!-- Interface MDT -->
-    <div class="mdt-container" id="mdtApp" style="display: none;">
-        <!-- Header -->
-        <header class="mdt-header">
-            <div class="header-left">
-                <div class="logo">
-                    <i class="fas fa-car"></i>
-                </div>
-                <div class="title-container">
-                    <div class="title">MDT Police</div>
-                    <div class="title-sub">Gestion des Véhicules</div>
-                    <div class="header-badge" id="connectionStatus">
-                        <i class="fas fa-wifi"></i>
-                        <span>Connecté</span>
-                    </div>
-                </div>
+    <!-- Dashboard (hidden until login) -->
+    <div class="dashboard" id="dashboard">
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <div class="dashboard-logo">
+                <i class="fas fa-tools"></i>
+                <h1>Intranet <span>Benny's</span></h1>
             </div>
             
-            <div class="header-center">
-                <div class="header-info">
-                    <div class="info-item">
-                        <i class="fas fa-clock"></i>
-                        <span id="currentDateTime"></span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span id="currentStation">Quartier Général</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-id-card"></i>
-                        <span id="badgeNumber">Badge: PD-7890</span>
-                    </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JD</div>
+                <div>
+                    <div class="user-name" id="userName">John Doe</div>
+                    <div class="user-role" id="userRole">Mécanicien</div>
                 </div>
-            </div>
-            
-            <div class="header-right">
-                <div class="user-info" id="userProfile">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="user-details">
-                        <div class="user-name">Hortl</div>
-                        <div class="user-role">Responsable Véhicules</div>
-                        <div class="user-status" id="userStatus">En service</div>
-                    </div>
-                    <div class="status-indicator status-online"></div>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn-icon" id="notificationsBtn" title="Notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </button>
-                    
-                    <button class="btn-icon" id="settingsBtn" title="Paramètres">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                    
-                    <button class="btn-icon" id="statusToggleBtn" title="Changer statut">
-                        <i class="fas fa-toggle-on"></i>
-                    </button>
-                    
-                    <button class="btn-icon logout-btn" id="logoutBtn" title="Déconnexion">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
+                <button class="logout-btn" id="logoutBtn">Déconnexion</button>
             </div>
         </header>
-
-        <!-- Main Content -->
-        <main class="mdt-main">
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
             <!-- Sidebar -->
             <nav class="sidebar">
-                <div class="nav-section">
-                    <div class="nav-title">Navigation Principale</div>
-                    <button class="nav-item active" data-tab="dashboard">
-                        <div class="nav-icon">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </div>
-                        <span class="nav-text">Tableau de bord</span>
-                        <div class="nav-indicator"></div>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="vehicles">
-                        <div class="nav-icon">
-                            <i class="fas fa-car"></i>
-                        </div>
-                        <span class="nav-text">Véhicules Achetés</span>
-                        <div class="nav-badge" id="vehicleCount">10</div>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="inventory">
-                        <div class="nav-icon">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                        <span class="nav-text">Inventaire</span>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="citizens">
-                        <div class="nav-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <span class="nav-text">Citoyens</span>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="reports">
-                        <div class="nav-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <span class="nav-text">Rapports</span>
-                        <div class="nav-badge new">5</div>
-                    </button>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-title">Outils</div>
-                    <button class="nav-item" data-tab="search">
-                        <div class="nav-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <span class="nav-text">Recherche Avancée</span>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="analytics">
-                        <div class="nav-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <span class="nav-text">Analytique</span>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="maintenance">
-                        <div class="nav-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <span class="nav-text">Maintenance</span>
-                    </button>
-                    
-                    <button class="nav-item" data-tab="settings">
-                        <div class="nav-icon">
-                            <i class="fas fa-sliders-h"></i>
-                        </div>
-                        <span class="nav-text">Configuration</span>
-                    </button>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-title">Raccourcis</div>
-                    <div class="shortcuts-grid">
-                        <button class="shortcut-btn" id="quickPlateBtn" title="Recherche plaque">
-                            <i class="fas fa-search"></i>
-                            <span>Plaque</span>
-                        </button>
-                        <button class="shortcut-btn" id="quickVinBtn" title="Recherche VIN">
-                            <i class="fas fa-barcode"></i>
-                            <span>VIN</span>
-                        </button>
-                        <button class="shortcut-btn" id="quickReportBtn" title="Rapport rapide">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Rapport</span>
-                        </button>
-                        <button class="shortcut-btn" id="quickAlertBtn" title="Alerte">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span>Alerte</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="sidebar-footer">
-                    <div class="system-status">
-                        <div class="status-label">Système</div>
-                        <div class="status-value online">
-                            <i class="fas fa-circle"></i> Opérationnel
-                        </div>
-                    </div>
-                    <div class="last-update">
-                        <i class="fas fa-sync-alt"></i>
-                        Dernière mise à jour : <span id="lastUpdateTime">Aujourd'hui 14:30</span>
-                    </div>
+                <div class="sidebar-nav">
+                    <a href="#dashboard-page" class="nav-item active" data-page="dashboard-page">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="#rdv-page" class="nav-item" data-page="rdv-page">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Rendez-vous</span>
+                    </a>
+                    <a href="#vehicules-page" class="nav-item" data-page="vehicules-page">
+                        <i class="fas fa-car"></i>
+                        <span>Véhicules en cours</span>
+                    </a>
+                    <a href="#stock-page" class="nav-item" data-page="stock-page">
+                        <i class="fas fa-boxes"></i>
+                        <span>Stock & Pièces</span>
+                    </a>
+                    <a href="#employes-page" class="nav-item" data-page="employes-page">
+                        <i class="fas fa-users"></i>
+                        <span>Employés</span>
+                    </a>
+                    <a href="#documents-page" class="nav-item" data-page="documents-page">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Documents</span>
+                    </a>
                 </div>
             </nav>
-
-            <!-- Content Area -->
-            <div class="content-area">
-                <!-- Dashboard Tab -->
-                <div class="content-body" id="dashboardTab">
-                    <div class="content-header">
-                        <div class="header-title-group">
-                            <h1 class="page-title">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Tableau de Bord
-                            </h1>
-                            <p class="page-subtitle">Vue d'ensemble du système de gestion des véhicules</p>
-                        </div>
-                        
-                        <div class="header-actions">
-                            <button class="btn btn-secondary" id="quickStatsBtn">
-                                <i class="fas fa-chart-pie"></i>
-                                Statistiques
-                            </button>
-                            <button class="btn btn-primary" id="refreshBtn">
-                                <i class="fas fa-sync-alt"></i> Actualiser
-                            </button>
-                            <div class="date-selector" id="dateRangeSelector">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span id="selectedDateRange">Aujourd'hui</span>
-                                <i class="fas fa-chevron-down"></i>
+            
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div class="page active" id="dashboard-page">
+                    <h2 class="page-title">Tableau de bord</h2>
+                    
+                    <div class="stats-cards">
+                        <div class="stat-card stat-1">
+                            <div class="stat-icon">
+                                <i class="fas fa-wrench"></i>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Stats Grid -->
-                    <div class="stats-grid">
-                        <div class="stat-card stat-primary">
-                            <div class="stat-header">
-                                <div class="stat-info">
-                                    <div class="stat-value" id="totalVehicles">10</div>
-                                    <div class="stat-label">Véhicules Totaux</div>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-car"></i>
-                                </div>
-                            </div>
-                            <div class="stat-trend">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>+2 cette semaine</span>
-                            </div>
-                            <div class="stat-detail">
-                                <span class="detail-item">
-                                    <i class="fas fa-car-side"></i>
-                                    Patrouille: 6
-                                </span>
-                                <span class="detail-item">
-                                    <i class="fas fa-shuttle-van"></i>
-                                    Transport: 3
-                                </span>
+                            <div class="stat-info">
+                                <h3 id="vehiclesInProgress">12</h3>
+                                <p>Véhicules en cours</p>
                             </div>
                         </div>
                         
-                        <div class="stat-card stat-success">
-                            <div class="stat-header">
-                                <div class="stat-info">
-                                    <div class="stat-value" id="activeVehicles">8</div>
-                                    <div class="stat-label">Véhicules Actifs</div>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
+                        <div class="stat-card stat-2">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
                             </div>
-                            <div class="stat-trend">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>95% de disponibilité</span>
-                            </div>
-                            <div class="stat-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 95%"></div>
-                                </div>
-                                <span class="progress-text">95%</span>
+                            <div class="stat-info">
+                                <h3 id="todayAppointments">5</h3>
+                                <p>RDV aujourd'hui</p>
                             </div>
                         </div>
                         
-                        <div class="stat-card stat-warning">
-                            <div class="stat-header">
-                                <div class="stat-info">
-                                    <div class="stat-value" id="pendingVehicles">2</div>
-                                    <div class="stat-label">En Attente</div>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-clock"></i>
-                                </div>
+                        <div class="stat-card stat-3">
+                            <div class="stat-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
                             </div>
-                            <div class="stat-trend">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>À traiter</span>
-                            </div>
-                            <div class="stat-actions">
-                                <button class="btn-sm btn-warning" id="processPendingBtn">
-                                    <i class="fas fa-play"></i>
-                                    Traiter
-                                </button>
+                            <div class="stat-info">
+                                <h3 id="urgentTasks">3</h3>
+                                <p>Tâches urgentes</p>
                             </div>
                         </div>
                         
-                        <div class="stat-card stat-danger">
-                            <div class="stat-header">
-                                <div class="stat-info">
-                                    <div class="stat-value" id="inactiveVehicles">1</div>
-                                    <div class="stat-label">Inactifs</div>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-times-circle"></i>
-                                </div>
+                        <div class="stat-card stat-4">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
                             </div>
-                            <div class="stat-trend">
-                                <i class="fas fa-arrow-down"></i>
-                                <span>À réviser</span>
-                            </div>
-                            <div class="stat-detail">
-                                <span class="detail-item alert">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    1 en maintenance
-                                </span>
+                            <div class="stat-info">
+                                <h3 id="todayRevenue">$24,580</h3>
+                                <p>Chiffre du jour</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Quick Actions -->
-                    <div class="quick-actions">
-                        <h3 class="section-title">
-                            <i class="fas fa-bolt"></i> Actions Rapides
-                        </h3>
-                        <div class="actions-grid">
-                            <button class="action-card" id="quickAddBtn">
-                                <div class="action-icon add">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Ajouter un véhicule</div>
-                                    <div class="action-desc">Nouvelle acquisition</div>
-                                    <div class="action-shortcut">Ctrl + N</div>
-                                </div>
-                            </button>
-                            
-                            <button class="action-card" id="quickReportBtn">
-                                <div class="action-icon report">
-                                    <i class="fas fa-file-export"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Générer rapport</div>
-                                    <div class="action-desc">Export PDF/Excel</div>
-                                    <div class="action-shortcut">Ctrl + R</div>
-                                </div>
-                            </button>
-                            
-                            <button class="action-card" id="quickSearchBtn">
-                                <div class="action-icon search">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Recherche avancée</div>
-                                    <div class="action-desc">Filtres multiples</div>
-                                    <div class="action-shortcut">Ctrl + F</div>
-                                </div>
-                            </button>
-                            
-                            <button class="action-card" id="quickCheckBtn">
-                                <div class="action-icon check">
-                                    <i class="fas fa-clipboard-check"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Vérification</div>
-                                    <div class="action-desc">Contrôle routine</div>
-                                    <div class="action-shortcut">Ctrl + V</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Charts Section -->
-                    <div class="charts-section">
-                        <div class="chart-container">
-                            <h4 class="chart-title">
-                                <i class="fas fa-chart-bar"></i>
-                                Véhicules par statut
-                            </h4>
-                            <div class="chart" id="statusChart">
-                                <div class="chart-bar" data-status="active" style="height: 80%">
-                                    <div class="bar-label">Actifs</div>
-                                    <div class="bar-value">8</div>
-                                </div>
-                                <div class="chart-bar" data-status="pending" style="height: 20%">
-                                    <div class="bar-label">En attente</div>
-                                    <div class="bar-value">2</div>
-                                </div>
-                                <div class="chart-bar" data-status="inactive" style="height: 10%">
-                                    <div class="bar-label">Inactifs</div>
-                                    <div class="bar-value">1</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="chart-container">
-                            <h4 class="chart-title">
-                                <i class="fas fa-chart-pie"></i>
-                                Répartition par type
-                            </h4>
-                            <div class="pie-chart" id="typeChart">
-                                <div class="pie-segment" data-type="patrol" style="--percentage: 60%; --color: #3b82f6;">
-                                    <div class="segment-label">Patrouille</div>
-                                </div>
-                                <div class="pie-segment" data-type="transport" style="--percentage: 30%; --color: #10b981;">
-                                    <div class="segment-label">Transport</div>
-                                </div>
-                                <div class="pie-segment" data-type="admin" style="--percentage: 10%; --color: #8b5cf6;">
-                                    <div class="segment-label">Admin</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity -->
-                    <div class="recent-activity">
-                        <div class="activity-header">
-                            <h3 class="section-title">
-                                <i class="fas fa-history"></i> Activité Récente
-                            </h3>
-                            <button class="btn-sm" id="viewAllActivity">
-                                Voir tout <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                        <div class="activity-list">
-                            <div class="activity-item new">
-                                <div class="activity-icon">
-                                    <i class="fas fa-car"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Nouveau véhicule ajouté</div>
-                                    <div class="activity-desc">Accueil - Koffi Diabo • VH-2025-001</div>
-                                    <div class="activity-time">Il y a 2 heures</div>
-                                </div>
-                                <button class="activity-action">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="activity-item update">
-                                <div class="activity-icon">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Mise à jour effectuée</div>
-                                    <div class="activity-desc">Effectifs - Scott Darryon • Statut changé</div>
-                                    <div class="activity-time">Il y a 4 heures</div>
-                                </div>
-                                <button class="activity-action">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="activity-item report">
-                                <div class="activity-icon">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Rapport généré</div>
-                                    <div class="activity-desc">Synthèse mensuelle • Export PDF</div>
-                                    <div class="activity-time">Aujourd'hui 10:30</div>
-                                </div>
-                                <button class="activity-action">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="activity-item alert">
-                                <div class="activity-icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Maintenance requise</div>
-                                    <div class="activity-desc">Véhicule #VH-2025-004 • Contrôle technique</div>
-                                    <div class="activity-time">Hier 16:45</div>
-                                </div>
-                                <button class="activity-action">
-                                    <i class="fas fa-tools"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Vehicles Tab -->
-                <div class="content-body" id="vehiclesTab" style="display: none;">
-                    <div class="content-header">
-                        <div class="header-title-group">
-                            <h1 class="page-title">
-                                <i class="fas fa-car"></i>
-                                Liste des Véhicules Achetés
-                            </h1>
-                            <p class="page-subtitle">Gestion complète des transactions de véhicules</p>
-                        </div>
-                        
-                        <div class="header-actions">
-                            <div class="search-container">
-                                <div class="search-box">
-                                    <i class="fas fa-search"></i>
-                                    <input type="text" id="vehicleSearch" placeholder="Rechercher véhicule, plaque, VIN...">
-                                    <button class="search-btn" id="advancedSearchBtn" title="Recherche avancée">
-                                        <i class="fas fa-filter"></i>
-                                    </button>
-                                </div>
-                                <div class="search-options">
-                                    <button class="option-btn active" data-search="all">Tous</button>
-                                    <button class="option-btn" data-search="active">Actifs</button>
-                                    <button class="option-btn" data-search="pending">En attente</button>
-                                </div>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn btn-secondary" id="exportBtn">
-                                    <i class="fas fa-download"></i>
-                                    Exporter
-                                </button>
-                                <button class="btn btn-primary" id="addVehicleBtn">
-                                    <i class="fas fa-plus-circle"></i>
-                                    Nouveau Véhicule
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tableau des véhicules -->
+                    
                     <div class="table-container">
                         <div class="table-header">
-                            <div class="table-info">
-                                <div class="table-summary">
-                                    <span class="table-count">10 véhicules trouvés</span>
-                                    <span class="table-selected" id="selectedCount">0 sélectionnés</span>
-                                </div>
-                                <div class="table-filters">
-                                    <div class="filter-group">
-                                        <label for="statusFilter">
-                                            <i class="fas fa-filter"></i>
-                                            Statut
-                                        </label>
-                                        <select class="filter-select" id="statusFilter">
-                                            <option value="all">Tous les statuts</option>
-                                            <option value="active">Actifs</option>
-                                            <option value="pending">En attente</option>
-                                            <option value="inactive">Inactifs</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="filter-group">
-                                        <label for="typeFilter">
-                                            <i class="fas fa-car"></i>
-                                            Type
-                                        </label>
-                                        <select class="filter-select" id="typeFilter">
-                                            <option value="all">Tous les types</option>
-                                            <option value="patrol">Patrouille</option>
-                                            <option value="transport">Transport</option>
-                                            <option value="admin">Administratif</option>
-                                            <option value="special">Spécial</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="filter-group">
-                                        <label for="sortFilter">
-                                            <i class="fas fa-sort"></i>
-                                            Trier par
-                                        </label>
-                                        <select class="filter-select" id="sortFilter">
-                                            <option value="date-desc">Date récente</option>
-                                            <option value="date-asc">Date ancienne</option>
-                                            <option value="name-asc">Nom A-Z</option>
-                                            <option value="name-desc">Nom Z-A</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <button class="btn-sm btn-secondary" id="clearFiltersBtn">
-                                        <i class="fas fa-times"></i>
-                                        Effacer
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="table-actions" id="bulkActions" style="display: none;">
-                                <span class="bulk-title">Actions groupées :</span>
-                                <button class="btn-sm btn-success" id="bulkActivateBtn">
-                                    <i class="fas fa-check"></i>
-                                    Activer
-                                </button>
-                                <button class="btn-sm btn-warning" id="bulkPendingBtn">
-                                    <i class="fas fa-clock"></i>
-                                    Mettre en attente
-                                </button>
-                                <button class="btn-sm btn-danger" id="bulkDeleteBtn">
-                                    <i class="fas fa-trash"></i>
-                                    Supprimer
-                                </button>
-                                <button class="btn-sm btn-secondary" id="bulkExportBtn">
-                                    <i class="fas fa-file-export"></i>
-                                    Exporter
-                                </button>
-                            </div>
+                            <h3>Activités récentes</h3>
                         </div>
-                        
-                        <div class="table-wrapper">
-                            <table class="vehicles-table">
-                                <thead>
-                                    <tr>
-                                        <th class="select-column">
-                                            <input type="checkbox" id="selectAll">
-                                        </th>
-                                        <th class="general-column">
-                                            <div class="column-header">
-                                                GÉNÉRAL
-                                                <i class="fas fa-sort"></i>
-                                            </div>
-                                        </th>
-                                        <th class="details-column">
-                                            <div class="column-header">
-                                                DÉTAILS
-                                                <i class="fas fa-chevron-right"></i>
-                                            </div>
-                                        </th>
-                                        <th class="date-column">
-                                            <div class="column-header">
-                                                DATE
-                                                <i class="fas fa-calendar"></i>
-                                            </div>
-                                        </th>
-                                        <th class="buyer-column">
-                                            <div class="column-header">
-                                                ACHETEUR
-                                                <i class="fas fa-user"></i>
-                                            </div>
-                                        </th>
-                                        <th class="seller-column">
-                                            <div class="column-header">
-                                                VENDEUR
-                                                <i class="fas fa-user-tie"></i>
-                                            </div>
-                                        </th>
-                                        <th class="status-column">
-                                            <div class="column-header">
-                                                STATUT
-                                                <i class="fas fa-circle"></i>
-                                            </div>
-                                        </th>
-                                        <th class="actions-column">
-                                            <div class="column-header">
-                                                ACTIONS
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="vehiclesTableBody">
-                                    <!-- Les lignes seront générées dynamiquement -->
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="table-footer">
-                            <div class="table-summary">
-                                Affichage de <strong>5</strong> sur <strong>10</strong> véhicules
-                            </div>
-                            <div class="pagination">
-                                <button class="pagination-btn prev" disabled>
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="pagination-btn active">1</button>
-                                <button class="pagination-btn">2</button>
-                                <button class="pagination-btn next">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                                <div class="pagination-info">
-                                    Page 1 sur 2
-                                </div>
-                            </div>
-                            <div class="table-settings">
-                                <select class="page-size-select" id="pageSizeSelect">
-                                    <option value="5">5 par page</option>
-                                    <option value="10" selected>10 par page</option>
-                                    <option value="25">25 par page</option>
-                                    <option value="50">50 par page</option>
-                                </select>
-                            </div>
-                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Véhicule</th>
+                                    <th>Client</th>
+                                    <th>Service</th>
+                                    <th>Employé</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentActivities">
+                                <!-- Les activités seront ajoutées via JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                
+                <!-- Rendez-vous Page -->
+                <div class="page" id="rdv-page">
+                    <h2 class="page-title">Gestion des rendez-vous</h2>
                     
-                    <!-- Signature Section -->
-                    <div class="signature-section">
-                        <div class="signature-container">
-                            <div class="signature-line"></div>
-                            <div class="signature-content">
-                                <div class="signature-name" id="signatureName"> Hort</div>
-                                <div class="signature-title">
-                                    <i class="fas fa-badge-check"></i>
-                                    Responsable Véhicules - Département Police
-                                </div>
-                                <div class="signature-date" id="signatureDate">28 novembre 2025</div>
-                            </div>
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Rendez-vous à venir</h3>
+                            <button class="add-btn" id="addAppointmentBtn">+ Nouveau RDV</button>
                         </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date/Heure</th>
+                                    <th>Client</th>
+                                    <th>Téléphone</th>
+                                    <th>Véhicule</th>
+                                    <th>Service</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTable">
+                                <!-- Les rendez-vous seront ajoutés via JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="mdt-footer">
-            <div class="footer-left">
-                <div class="system-info">
-                    <div class="system-status">
-                        <i class="fas fa-server"></i>
-                        <span>Système MDT v3.2.1</span>
-                        <span class="version-badge">Stable</span>
+                
+                <!-- Véhicules en cours Page -->
+                <div class="page" id="vehicules-page">
+                    <h2 class="page-title">Véhicules en cours de réparation</h2>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Véhicules à l'atelier</h3>
+                            <button class="add-btn" id="addVehicleBtn">+ Ajouter véhicule</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Véhicule</th>
+                                    <th>Immatriculation</th>
+                                    <th>Propriétaire</th>
+                                    <th>Travaux demandés</th>
+                                    <th>Employé assigné</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vehiclesTable">
+                                <!-- Les véhicules seront ajoutés via JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="connection-status" id="connectionInfo">
-                        <i class="fas fa-wifi"></i>
-                        <span>Connexion stable • 45ms</span>
+                </div>
+                
+                <!-- Stock & Pièces Page -->
+                <div class="page" id="stock-page">
+                    <h2 class="page-title">Gestion du stock</h2>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Pièces en stock</h3>
+                            <button class="add-btn" id="addPartBtn">+ Ajouter pièce</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Nom de la pièce</th>
+                                    <th>Type</th>
+                                    <th>Quantité</th>
+                                    <th>Seuil d'alerte</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockTable">
+                                <!-- Les pièces seront ajoutées via JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            
-            <div class="footer-center">
-                <div class="footer-logo">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>San Andreas State Police • Système MDT</span>
+                
+                <!-- Employés Page -->
+                <div class="page" id="employes-page">
+                    <h2 class="page-title">Gestion des employés</h2>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Équipe Benny's</h3>
+                            <button class="add-btn" id="addEmployeeBtn">+ Ajouter employé</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID Employé</th>
+                                    <th>Nom</th>
+                                    <th>Rôle</th>
+                                    <th>Téléphone</th>
+                                    <th>Disponibilité</th>
+                                    <th>Salaire</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeesTable">
+                                <!-- Les employés seront ajoutés via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="footer-copyright">
-                    © 2025 Département des Transports et Véhicules
+                
+                <!-- Documents Page -->
+                <div class="page" id="documents-page">
+                    <h2 class="page-title">Documents internes</h2>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Documents disponibles</h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nom du document</th>
+                                    <th>Type</th>
+                                    <th>Date de modification</th>
+                                    <th>Taille</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><i class="fas fa-file-pdf"></i> Procédures de sécurité</td>
+                                    <td>PDF</td>
+                                    <td>15/06/2023</td>
+                                    <td>2.4 MB</td>
+                                    <td><button class="action-btn">Télécharger</button></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-file-excel"></i> Tarifs des services</td>
+                                    <td>Excel</td>
+                                    <td>22/06/2023</td>
+                                    <td>1.1 MB</td>
+                                    <td><button class="action-btn">Télécharger</button></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-file-word"></i> Contrat type</td>
+                                    <td>Word</td>
+                                    <td>10/06/2023</td>
+                                    <td>3.2 MB</td>
+                                    <td><button class="action-btn">Télécharger</button></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-file-alt"></i> Liste des fournisseurs</td>
+                                    <td>PDF</td>
+                                    <td>05/06/2023</td>
+                                    <td>850 KB</td>
+                                    <td><button class="action-btn">Télécharger</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="footer-right">
-                <div class="footer-actions">
-                    <button class="footer-btn" id="helpBtn" title="Aide">
-                        <i class="fas fa-question-circle"></i>
-                        <span class="tooltip">Aide</span>
-                    </button>
-                    <button class="footer-btn" id="printBtn" title="Imprimer">
-                        <i class="fas fa-print"></i>
-                        <span class="tooltip">Imprimer</span>
-                    </button>
-                    <button class="footer-btn" id="fullscreenBtn" title="Plein écran">
-                        <i class="fas fa-expand"></i>
-                        <span class="tooltip">Plein écran</span>
-                    </button>
-                    <button class="footer-btn" id="darkModeBtn" title="Mode sombre">
-                        <i class="fas fa-moon"></i>
-                        <span class="tooltip">Mode sombre</span>
-                    </button>
-                </div>
-                <div class="current-time">
-                    <i class="fas fa-clock"></i>
-                    <span id="currentTime">14:30:45</span>
-                    <span class="timezone">CEST</span>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Modal d'ajout de véhicule -->
-    <div class="modal" id="addVehicleModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-plus-circle"></i>
-                    Ajouter un nouveau véhicule
-                </h3>
-                <button class="modal-close" id="closeModalBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-stepper">
-                    <div class="stepper-step active">1. Informations</div>
-                    <div class="stepper-step">2. Détails</div>
-                    <div class="stepper-step">3. Validation</div>
-                </div>
-                <form id="vehicleForm" class="vehicle-form">
-                    <!-- Le formulaire sera généré dynamiquement -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancelBtn">
-                    Annuler
-                </button>
-                <button class="btn btn-primary" id="submitVehicleBtn">
-                    <i class="fas fa-save"></i>
-                    Enregistrer le véhicule
-                </button>
-            </div>
+            </main>
         </div>
     </div>
 
-    <!-- Modal de détails -->
-    <div class="modal" id="vehicleDetailsModal">
-        <div class="modal-content large">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-car"></i>
-                    Détails du véhicule
-                </h3>
-                <button class="modal-close" id="closeDetailsBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="vehicleDetailsContent">
-                    <!-- Les détails seront chargés dynamiquement -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notifications Panel -->
-    <div class="notifications-panel" id="notificationsPanel">
-        <div class="notifications-header">
-            <h4><i class="fas fa-bell"></i> Notifications</h4>
-            <button class="btn-sm" id="markAllReadBtn">
-                Tout marquer comme lu
-            </button>
-        </div>
-        <div class="notifications-list" id="notificationsList">
-            <!-- Les notifications seront chargées dynamiquement -->
-        </div>
-    </div>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i>
-            </div>
-            <div class="loading-text" id="loadingText">Chargement...</div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div id="toastContainer"></div>
-
-    <!-- Scripts -->
-    <script src="script.js"></script>
     <script>
-        // Initialisation de l'application
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialiser l'application
-            if (typeof initApplication === 'function') {
-                initApplication();
+        // Données de démonstration
+        const demoData = {
+            employees: [
+                { id: "BNY-001", name: "Jean Dupont", role: "Mécanicien", phone: "555-0101", available: "Disponible", salary: "$3,200" },
+                { id: "BNY-002", name: "Marie Lambert", role: "Réception", phone: "555-0102", available: "En pause", salary: "$2,800" },
+                { id: "BNY-003", name: "Ahmed Benali", role: "Customiseur", phone: "555-0103", available: "Disponible", salary: "$3,500" },
+                { id: "BNY-004", name: "Lucas Moreau", role: "Mécanicien", phone: "555-0104", available: "En congé", salary: "$3,100" },
+                { id: "BNY-005", name: "Sophie Martin", role: "Patron/Gérant", phone: "555-0105", available: "Disponible", salary: "$4,500" }
+            ],
+            appointments: [
+                { date: "28/06/2023 09:30", client: "Michael De Santa", phone: "555-1234", vehicle: "Obey Tailgater", service: "Révision complète" },
+                { date: "28/06/2023 11:00", client: "Franklin Clinton", phone: "555-5678", vehicle: "Bravado Banshee", service: "Customisation" },
+                { date: "28/06/2023 14:30", client: "Trevor Philips", phone: "555-9012", vehicle: "Canis Bodhi", service: "Réparation moteur" },
+                { date: "29/06/2023 10:00", client: "Lamar Davis", phone: "555-3456", vehicle: "Declasse Sabre Turbo", service: "Peinture" },
+                { date: "29/06/2023 15:00", client: "Jimmy De Santa", phone: "555-7890", vehicle: "Dinka Jester", service: "Tuning performance" }
+            ],
+            vehicles: [
+                { model: "Karin Sultan", plate: "LS-789-BNY", owner: "Michael De Santa", work: "Révision + Peinture", assigned: "Jean Dupont", status: "En cours" },
+                { model: "Grotti Turismo R", plate: "LS-456-TUR", owner: "Franklin Clinton", work: "Kit carrosserie", assigned: "Ahmed Benali", status: "En attente" },
+                { model: "Vapid Dominator", plate: "LS-321-DOM", owner: "Trevor Philips", work: "Réparation transmission", assigned: "Lucas Moreau", status: "Terminé" },
+                { model: "Benefactor Schafter", plate: "LS-654-SCH", owner: "Lester Crest", work: "Système audio", assigned: "Ahmed Benali", status: "En cours" }
+            ],
+            stock: [
+                { ref: "BNY-MOT-001", name: "Moteur V8", type: "Moteur", quantity: 3, alert: 2, price: "$4,500" },
+                { ref: "BNY-FRE-005", name: "Disques de frein", type: "Freinage", quantity: 12, alert: 5, price: "$120" },
+                { ref: "BNY-SUS-012", name: "Kit suspension", type: "Suspension", quantity: 5, alert: 3, price: "$850" },
+                { ref: "BNY-PEI-023", name: "Peinture rouge métallisé", type: "Peinture", quantity: 8, alert: 4, price: "$65" },
+                { ref: "BNY-ECH-008", name: "Echappement sport", type: "Performance", quantity: 6, alert: 3, price: "$320" }
+            ]
+        };
+
+        // Gestion de la connexion
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const employeeId = document.getElementById('employeeId').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            
+            // Simulation de connexion (dans un vrai système, vérification avec serveur)
+            if (employeeId && password && role) {
+                // Trouver l'employé correspondant
+                const employee = demoData.employees.find(emp => emp.id === employeeId);
+                const name = employee ? employee.name : "Employé Benny's";
+                
+                // Mettre à jour l'interface avec les infos de l'utilisateur
+                document.getElementById('userName').textContent = name;
+                document.getElementById('userRole').textContent = getRoleName(role);
+                document.getElementById('userAvatar').textContent = getInitials(name);
+                
+                // Afficher le tableau de bord
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                
+                // Charger les données initiales
+                loadDashboardData();
+                loadAppointments();
+                loadVehicles();
+                loadStock();
+                loadEmployees();
+            } else {
+                alert('Veuillez remplir tous les champs');
             }
-            
-            // Gestion de la connexion
-            const loginForm = document.getElementById('loginForm');
-            const loginBtn = document.getElementById('loginBtn');
-            const loginScreen = document.getElementById('loginScreen');
-            const mdtApp = document.getElementById('mdtApp');
-            
-            loginForm.addEventListener('submit', function(e) {
+        });
+
+        // Gestion de la déconnexion
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+        });
+
+        // Navigation entre les pages
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                const station = document.getElementById('station').value;
-                
-                if (!username || !password || !station) {
-                    showToast('Veuillez remplir tous les champs', 'error');
-                    return;
-                }
-                
-                // Afficher le chargement
-                showLoading('Connexion en cours...');
-                
-                // Simulation de connexion
-                setTimeout(() => {
-                    hideLoading();
-                    loginScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loginScreen.style.display = 'none';
-                        mdtApp.style.display = 'flex';
-                        setTimeout(() => {
-                            mdtApp.style.opacity = '1';
-                            // Mettre à jour les informations de l'utilisateur
-                            document.getElementById('currentStation').textContent = 
-                                document.querySelector(`#station option[value="${station}"]`).textContent;
-                            showToast('Connexion réussie !', 'success');
-                            // Démarrer les mises à jour en temps réel
-                            startRealTimeUpdates();
-                        }, 50);
-                    }, 300);
-                }, 1500);
-            });
-            
-            // Déconnexion
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-                    mdtApp.style.opacity = '0';
-                    setTimeout(() => {
-                        mdtApp.style.display = 'none';
-                        loginScreen.style.display = 'flex';
-                        setTimeout(() => {
-                            loginScreen.style.opacity = '1';
-                            // Réinitialiser le formulaire
-                            loginForm.reset();
-                            document.getElementById('username').value = 'agent.police';
-                            document.getElementById('password').value = '••••••••';
-                            showToast('Déconnexion réussie', 'info');
-                        }, 50);
-                    }, 300);
-                }
-            });
-            
-            // Navigation
-            const navItems = document.querySelectorAll('.nav-item');
-            const contentBodies = document.querySelectorAll('.content-body');
-            
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const tab = this.getAttribute('data-tab');
-                    
-                    // Mettre à jour la navigation
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Afficher le contenu correspondant
-                    contentBodies.forEach(body => {
-                        body.style.display = 'none';
-                        if (body.id === tab + 'Tab') {
-                            body.style.display = 'block';
-                            // Déclencher un événement de changement d'onglet
-                            document.dispatchEvent(new CustomEvent('tabChanged', { 
-                                detail: { tab: tab } 
-                            }));
-                        }
-                    });
-                    
-                    // Ajouter une notification pour le nouvel onglet
-                    if (tab !== 'dashboard') {
-                        showToast(`Navigation vers ${this.querySelector('.nav-text').textContent}`, 'info');
-                    }
-                });
-            });
-            
-            // Mise à jour de l'heure
-            function updateDateTime() {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('fr-FR', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                });
-                const dateStr = now.toLocaleDateString('fr-FR', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
+                // Retirer la classe active de tous les liens
+                document.querySelectorAll('.nav-item').forEach(link => {
+                    link.classList.remove('active');
                 });
                 
-                const timeElement = document.getElementById('currentTime');
-                const dateTimeElement = document.getElementById('currentDateTime');
+                // Ajouter la classe active au lien cliqué
+                this.classList.add('active');
                 
-                if (timeElement) timeElement.textContent = timeStr;
-                if (dateTimeElement) dateTimeElement.textContent = `${dateStr} ${timeStr}`;
-            }
+                // Cacher toutes les pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Afficher la page correspondante
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // Fonctions utilitaires
+        function getRoleName(roleCode) {
+            const roles = {
+                'mecanicien': 'Mécanicien',
+                'patron': 'Patron/Gérant',
+                'reception': 'Réception',
+                'customiser': 'Customiseur'
+            };
+            return roles[roleCode] || 'Employé';
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase();
+        }
+
+        // Chargement des données
+        function loadDashboardData() {
+            // Mettre à jour les statistiques
+            document.getElementById('vehiclesInProgress').textContent = 
+                demoData.vehicles.filter(v => v.status === 'En cours').length;
+            document.getElementById('todayAppointments').textContent = 
+                demoData.appointments.filter(a => a.date.includes('28/06/2023')).length;
+            document.getElementById('urgentTasks').textContent = 3;
+            document.getElementById('todayRevenue').textContent = '$24,580';
             
-            // Fonction pour afficher les toasts
-            function showToast(message, type = 'info') {
-                const toast = document.createElement('div');
-                toast.className = `toast toast-${type}`;
-                toast.innerHTML = `
-                    <i class="fas fa-${getToastIcon(type)}"></i>
-                    <span>${message}</span>
-                    <button class="toast-close"><i class="fas fa-times"></i></button>
+            // Remplir les activités récentes
+            const activitiesTable = document.getElementById('recentActivities');
+            activitiesTable.innerHTML = '';
+            
+            demoData.vehicles.forEach(vehicle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${vehicle.model}</td>
+                    <td>${vehicle.owner}</td>
+                    <td>${vehicle.work}</td>
+                    <td>${vehicle.assigned}</td>
+                    <td><span class="status status-${vehicle.status === 'Terminé' ? 'termine' : vehicle.status === 'En attente' ? 'attente' : 'en-cours'}">${vehicle.status}</span></td>
+                    <td>
+                        <button class="action-btn">Détails</button>
+                        <button class="action-btn">Modifier</button>
+                    </td>
                 `;
-                
-                const container = document.getElementById('toastContainer');
-                container.appendChild(toast);
-                
-                // Animation d'entrée
-                setTimeout(() => toast.classList.add('show'), 10);
-                
-                // Fermeture automatique
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 300);
-                }, 5000);
-                
-                // Fermeture manuelle
-                toast.querySelector('.toast-close').addEventListener('click', () => {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 300);
-                });
-            }
-            
-            function getToastIcon(type) {
-                const icons = {
-                    'success': 'check-circle',
-                    'error': 'exclamation-circle',
-                    'warning': 'exclamation-triangle',
-                    'info': 'info-circle'
-                };
-                return icons[type] || 'info-circle';
-            }
-            
-            // Fonction de chargement
-            function showLoading(text = 'Chargement...') {
-                const overlay = document.getElementById('loadingOverlay');
-                const textElement = document.getElementById('loadingText');
-                textElement.textContent = text;
-                overlay.style.display = 'flex';
-                setTimeout(() => overlay.style.opacity = '1', 10);
-            }
-            
-            function hideLoading() {
-                const overlay = document.getElementById('loadingOverlay');
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.style.display = 'none', 300);
-            }
-            
-            // Mises à jour en temps réel
-            function startRealTimeUpdates() {
-                // Mettre à jour l'heure toutes les secondes
-                setInterval(updateDateTime, 1000);
-                updateDateTime();
-                
-                // Simulation de mises à jour de données
-                setInterval(() => {
-                    const time = new Date().toLocaleTimeString('fr-FR', { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                    });
-                    document.getElementById('lastUpdateTime').textContent = `Aujourd'hui ${time}`;
-                }, 30000);
-                
-                // Simulation de changement de statut de connexion
-                setInterval(() => {
-                    const status = document.getElementById('connectionStatus');
-                    const isOnline = Math.random() > 0.1; // 90% de chance d'être en ligne
-                    
-                    if (isOnline) {
-                        status.innerHTML = '<i class="fas fa-wifi"></i><span>Connecté</span>';
-                        status.className = 'header-badge online';
-                    } else {
-                        status.innerHTML = '<i class="fas fa-wifi-slash"></i><span>Déconnecté</span>';
-                        status.className = 'header-badge offline';
-                        showToast('Perte de connexion détectée', 'warning');
-                    }
-                }, 60000);
-            }
-            
-            // Raccourcis clavier
-            document.addEventListener('keydown', function(e) {
-                // Ctrl + N : Nouveau véhicule
-                if (e.ctrlKey && e.key === 'n') {
-                    e.preventDefault();
-                    document.getElementById('addVehicleBtn').click();
-                }
-                
-                // Ctrl + F : Recherche
-                if (e.ctrlKey && e.key === 'f') {
-                    e.preventDefault();
-                    document.getElementById('vehicleSearch').focus();
-                }
-                
-                // Ctrl + R : Actualiser
-                if (e.ctrlKey && e.key === 'r') {
-                    e.preventDefault();
-                    document.getElementById('refreshBtn').click();
-                }
-                
-                // Ctrl + S : Sauvegarder
-                if (e.ctrlKey && e.key === 's') {
-                    e.preventDefault();
-                    showToast('Sauvegarde en cours...', 'info');
-                }
-                
-                // Échap : Fermer modals
-                if (e.key === 'Escape') {
-                    const modals = document.querySelectorAll('.modal');
-                    modals.forEach(modal => {
-                        if (modal.style.display === 'flex') {
-                            modal.style.opacity = '0';
-                            setTimeout(() => modal.style.display = 'none', 300);
-                        }
-                    });
-                }
+                activitiesTable.appendChild(row);
             });
+        }
+
+        function loadAppointments() {
+            const appointmentsTable = document.getElementById('appointmentsTable');
+            appointmentsTable.innerHTML = '';
             
-            // Initialiser les événements de l'interface
-            initUIEvents();
+            demoData.appointments.forEach(appointment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${appointment.date}</td>
+                    <td>${appointment.client}</td>
+                    <td>${appointment.phone}</td>
+                    <td>${appointment.vehicle}</td>
+                    <td>${appointment.service}</td>
+                    <td>
+                        <button class="action-btn">Confirmer</button>
+                        <button class="action-btn">Reporter</button>
+                    </td>
+                `;
+                appointmentsTable.appendChild(row);
+            });
+        }
+
+        function loadVehicles() {
+            const vehiclesTable = document.getElementById('vehiclesTable');
+            vehiclesTable.innerHTML = '';
             
-            function initUIEvents() {
-                // Plein écran
-                document.getElementById('fullscreenBtn').addEventListener('click', function() {
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen();
-                        showToast('Mode plein écran activé', 'info');
-                    } else {
-                        document.exitFullscreen();
-                        showToast('Mode plein écran désactivé', 'info');
-                    }
-                });
-                
-                // Mode sombre
-                document.getElementById('darkModeBtn').addEventListener('click', function() {
-                    document.body.classList.toggle('dark-mode');
-                    const icon = this.querySelector('i');
-                    if (document.body.classList.contains('dark-mode')) {
-                        icon.className = 'fas fa-sun';
-                        showToast('Mode sombre activé', 'info');
-                    } else {
-                        icon.className = 'fas fa-moon';
-                        showToast('Mode clair activé', 'info');
-                    }
-                });
-                
-                // Aide
-                document.getElementById('helpBtn').addEventListener('click', function() {
-                    showToast('Ouverture de l\'aide...', 'info');
-                    setTimeout(() => {
-                        alert('Aide MDT Police\n\n' +
-                              'Raccourcis clavier :\n' +
-                              '• Ctrl + N : Nouveau véhicule\n' +
-                              '• Ctrl + F : Recherche\n' +
-                              '• Ctrl + R : Actualiser\n' +
-                              '• Ctrl + S : Sauvegarder\n' +
-                              '• Échap : Fermer les modals\n\n' +
-                              'Pour plus d\'assistance, contactez le support technique.');
-                    }, 500);
-                });
-                
-                // Imprimer
-                document.getElementById('printBtn').addEventListener('click', function() {
-                    showToast('Préparation de l\'impression...', 'info');
-                    setTimeout(() => window.print(), 1000);
-                });
-            }
+            demoData.vehicles.forEach(vehicle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${vehicle.model}</td>
+                    <td>${vehicle.plate}</td>
+                    <td>${vehicle.owner}</td>
+                    <td>${vehicle.work}</td>
+                    <td>${vehicle.assigned}</td>
+                    <td><span class="status status-${vehicle.status === 'Terminé' ? 'termine' : vehicle.status === 'En attente' ? 'attente' : 'en-cours'}">${vehicle.status}</span></td>
+                    <td>
+                        <button class="action-btn">Mettre à jour</button>
+                        <button class="action-btn">Facturer</button>
+                    </td>
+                `;
+                vehiclesTable.appendChild(row);
+            });
+        }
+
+        function loadStock() {
+            const stockTable = document.getElementById('stockTable');
+            stockTable.innerHTML = '';
             
-            // Exposer les fonctions globales
-            window.showToast = showToast;
-            window.showLoading = showLoading;
-            window.hideLoading = hideLoading;
+            demoData.stock.forEach(item => {
+                const row = document.createElement('tr');
+                const quantity = parseInt(item.quantity);
+                const alert = parseInt(item.alert);
+                const lowStock = quantity <= alert;
+                
+                row.innerHTML = `
+                    <td>${item.ref}</td>
+                    <td>${item.name}</td>
+                    <td>${item.type}</td>
+                    <td style="${lowStock ? 'color: #e63946; font-weight: bold;' : ''}">${item.quantity} ${lowStock ? '⏳' : ''}</td>
+                    <td>${item.alert}</td>
+                    <td>${item.price}</td>
+                    <td>
+                        <button class="action-btn">Commander</button>
+                        <button class="action-btn">Modifier</button>
+                    </td>
+                `;
+                stockTable.appendChild(row);
+            });
+        }
+
+        function loadEmployees() {
+            const employeesTable = document.getElementById('employeesTable');
+            employeesTable.innerHTML = '';
+            
+            demoData.employees.forEach(employee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${employee.id}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.role}</td>
+                    <td>${employee.phone}</td>
+                    <td>${employee.available}</td>
+                    <td>${employee.salary}</td>
+                    <td>
+                        <button class="action-btn">Contacter</button>
+                        <button class="action-btn">Modifier</button>
+                    </td>
+                `;
+                employeesTable.appendChild(row);
+            });
+        }
+
+        // Gestion des boutons d'ajout
+        document.getElementById('addAppointmentBtn').addEventListener('click', function() {
+            alert('Fonctionnalité d\'ajout de rendez-vous - À implémenter');
+        });
+
+        document.getElementById('addVehicleBtn').addEventListener('click', function() {
+            alert('Fonctionnalité d\'ajout de véhicule - À implémenter');
+        });
+
+        document.getElementById('addPartBtn').addEventListener('click', function() {
+            alert('Fonctionnalité d\'ajout de pièce - À implémenter');
+        });
+
+        document.getElementById('addEmployeeBtn').addEventListener('click', function() {
+            alert('Fonctionnalité d\'ajout d\'employé - À implémenter');
+        });
+
+        // Simuler une connexion par défaut pour la démonstration
+        window.addEventListener('DOMContentLoaded', function() {
+            // Pour la démonstration, pré-remplir le formulaire
+            document.getElementById('employeeId').value = 'BNY-001';
+            document.getElementById('password').value = 'password';
+            document.getElementById('role').value = 'mecanicien';
         });
     </script>
 </body>
